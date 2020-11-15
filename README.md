@@ -5,7 +5,7 @@ Repository for project WeGroup
 * A full-stack web application to let users create groups and collaborate with each other to share messages(string, photos, files, emoji), calendar.
 
 ### Methodology
-*Agile
+Agile
 
 ### Project team:
 * Hongdan Zhu: hongdanzhu
