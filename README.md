@@ -1,12 +1,13 @@
 # project-hqryyls
 Repository for project WeGroup
 
-Project description
+### Project description
 * A full-stack web application to let users create groups and collaborate with each other to share messages(string, photos, files, emoji), calendar.
 
-Methodology: Agile
+### Methodology
+*Agile
 
-Project team:
+### Project team:
 * Hongdan Zhu: hongdanzhu
 * Qing Liao: liaoqing21
 * Ruizi Dong: drq12345
