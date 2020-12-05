@@ -41,3 +41,7 @@ Use a feature branch workflow by committing branches and submit pull requests to
 2. User could send message, photo, emoji and share files in charroom.
 3. Team chat room has a find meeting time slot function
 4. Team chat room has an annoucement section to post important messages such as team info, github link, google doc link, etc.
+
+## Project Repo
+### docs
+Includes basic project and team documents. Currently we have public webpage using Github Pages, communication plan in docs. 
