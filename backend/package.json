@@ -1,0 +1,20 @@
+{
+  "name": "wegroup",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.ccs.neu.edu/2020FACS5500SV/project-hqryyls.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "Backend for WeGroup",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.11.4"
+  }
+}
