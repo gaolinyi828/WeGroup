@@ -20,10 +20,15 @@ const PostSchema = new mongoose.Schema({
         type: Number,
         Default: 1
     },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
     comments: [{type: mongoose.Schema.Types.ObjectId, ref: "Comment"}],
     interested: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
 
     // not sure if we need title, description, image, etc.
+    text: String
 });
 
 module.exports = mongoose.model("Post", PostSchema);

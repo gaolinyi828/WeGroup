@@ -5,7 +5,10 @@ const TagSchema = new mongoose.Schema({
     tagId: mongoose.Schema.Types.ObjectId,
     department: String,
     courseNumber: Number,
-    semester: String,
+    semester: {
+      type: String,
+      enum: ['Fall', 'Spring', 'Summer']
+    },
     year: Number,
     posts: [{type: mongoose.Schema.Types.ObjectId, ref: "Post"}]
 });
