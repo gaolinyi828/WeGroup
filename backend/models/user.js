@@ -15,6 +15,7 @@ const UserSchema = new mongoose.Schema({
         required: true
     },
     avatar: String,
+    teams: [{type: mongoose.Schema.Types.ObjectId, ref: "Team"}],
     postsCreatedByUser: [{type: mongoose.Schema.Types.ObjectId, ref: "Post"}],
     postsInteracted: [{type: mongoose.Schema.Types.ObjectId, ref: "Post"}]
 });
