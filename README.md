@@ -45,3 +45,9 @@ Use a feature branch workflow by committing branches and submit pull requests to
 ## Project Repo
 ### docs
 Includes basic project and team documents. Currently we have public webpage using Github Pages, communication plan in docs. 
+
+### backend
+Includes codes for backend design.
+
+### frontend
+Includes codes for frontend design.
