@@ -3,6 +3,12 @@
 ## Project Description
 A full-stack web application to let users create groups and collaborate with each other to share messages(string, photos, files, emoji), calendar.
 
+### Github Pages Link
+https://pages.github.ccs.neu.edu/2020FACS5500SV/project-hqryyls/
+
+### Deployed Application Link
+TBD
+
 ## Team
 ### Team Members
 * Hongdan Zhu: hongdanzhu
