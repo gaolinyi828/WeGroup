@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const TagSchema = new mongoose.Schema({
     // TO-DO: add tag schema properties
-    tagId: mongoose.Schema.Types.ObjectId,
     department: String,
     courseNumber: Number,
     semester: {
