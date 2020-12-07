@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const TeamSchema = new mongoose.Schema({
     // TO-DO: add team schema properties
-    teamId: mongoose.Schema.Types.ObjectId,
     members: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
     teamName: String,
     tag: {
