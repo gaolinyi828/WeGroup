@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
+import { Nav, Navbar } from "react-bootstrap";
 
 class WeGroupNavbar extends Component {
     render() {

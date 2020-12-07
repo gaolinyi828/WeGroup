@@ -3,6 +3,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import PostForm from "./components/PostForm";
 import React from "react";
+import UserProfile from "./containers/UserProfile";
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
         </Route>
         <Route exact path="/post_form">
           <PostForm />
+         </Route>
+        <Route exact path="/profile">
+          <UserProfile />
         </Route>
       </Switch>
     </Router>
