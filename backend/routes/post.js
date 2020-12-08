@@ -1,8 +1,7 @@
 const express = require("express");
-const router = express.Router({mergeParams: true});
+const router = express.Router();
 const Post = require("../models/post");
 const User = require("../models/user");
-const middleware = require("../middleware");
 
 /**
 *   CREATE - add a new post to DB
@@ -48,6 +47,7 @@ router.post('/post', (req, res) => {
  * @return status 404 if something went wrong
  *         status 200 with item objects
  */
+
 router.put('/post/update/:postId',  (req, res) => {
     var postId = req.params.postId;
     Post.findByIdAndUpdate(postId, {text: req.body.text}, (err, post) => {
@@ -146,3 +146,4 @@ router.get('/post/getTeamSize/:postId', (req, res) => {
 });
 
 module.exports = router;
+
