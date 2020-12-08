@@ -9,7 +9,7 @@ const Team = require('../models/team');
  *
  */
 router.post(
-    '/post/post_id/team', async (req, res) => {
+    '/team', async (req, res) => {
         try {
             const newTeam = new Team({
                 userId: req.body.userId,
