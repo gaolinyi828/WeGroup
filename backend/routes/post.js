@@ -10,12 +10,12 @@ const middleware = require("../middleware");
 *   @return status 400 if invalid input
  *         status 201 with a new item added
 */
-router.post('/post', function(){}, (req, res) => {
+router.post('/post', (req, res) => {
     // get data from request
     const userId = req.body.userId;
     const tag = req.body.tag;
     const teamSize = req.body.teamSize;
-    const createdAt = Date.now;
+    const createdAt = new Date();
     const comments = req.body.comments;
     const interested = req.body.interested;
     const text = req.body.text;
@@ -48,7 +48,7 @@ router.post('/post', function(){}, (req, res) => {
  * @return status 404 if something went wrong
  *         status 200 with item objects
  */
-router.patch('/post/update/:postId', function(){}, (req, res) => {
+router.put('/post/update/:postId',  (req, res) => {
     var postId = req.params.postId;
     Post.findByIdAndUpdate(postId, {text: req.body.text}, (err, post) => {
         if (err) {
@@ -66,7 +66,7 @@ router.patch('/post/update/:postId', function(){}, (req, res) => {
  * @return status 404 if fail to delete
  *         status 200 if successfully delete
  */
-router.delete('/post/delete/:postId', function(){}, (req, res)=> {
+router.delete('/post/delete/:postId', (req, res)=> {
     Post.findByIdAndDelete(req.params.postId, (err) => {
         if (err) {
             res.status(404).send("Delete failure");
@@ -83,7 +83,7 @@ router.delete('/post/delete/:postId', function(){}, (req, res)=> {
  * @return status 404 if something went wrong
  *         status 200 with posts
  */
-router.get('/post/byUser/:id', function(){}, (req, res) => {
+router.get('/post/byUser/:id', (req, res) => {
     Post.find({purchased_by: req.params.id}, (err, posts) => {
         if (err) {
             res.status(404).send("Something went wrong");
@@ -100,7 +100,7 @@ router.get('/post/byUser/:id', function(){}, (req, res) => {
  * @return status 404 if something went wrong
  *         status 200 with posts
  */
-router.get('/post/byUser/:tag', function(){}, (req, res) => {
+router.get('/post/byUser/:tag', (req, res) => {
     Post.find({purchased_by: req.params.tag}, (err, posts) => {
         if (err) {
             res.status(404).send("Something went wrong");
@@ -117,7 +117,7 @@ router.get('/post/byUser/:tag', function(){}, (req, res) => {
  * @return status 404 if something went wrong
  *         status 200 with posts
  */
-router.get('/post/InteratedByUser/:id', function(){}, (req, res) => {
+router.get('/post/InteratedByUser/:id', (req, res) => {
     User.find({purchased_by: req.params.id}, (err, user) => {
         if (err) {
             res.status(404).send("Something went wrong");
@@ -135,7 +135,7 @@ router.get('/post/InteratedByUser/:id', function(){}, (req, res) => {
  * @return status 404 if something went wrong
  *         status 200 with team size
  */
-router.get('/post/getTeamSize/:postId', function(){}, (req, res) => {
+router.get('/post/getTeamSize/:postId', (req, res) => {
     Post.findById(req.params.postId, (err, post) => {
         if (err) {
             res.status(404).send("Get failure");
@@ -145,4 +145,4 @@ router.get('/post/getTeamSize/:postId', function(){}, (req, res) => {
     });
 });
 
-module.export = router;
+module.exports = router;
