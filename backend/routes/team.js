@@ -84,4 +84,4 @@ router.get('/team/getTeamList/:userId', async (req, res) => {
     }
 });
 
-module.export = router;
+module.exports = router;
