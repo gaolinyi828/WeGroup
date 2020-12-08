@@ -2,9 +2,12 @@ const mongoose = require("mongoose");
 
 const CommentSchema = new mongoose.Schema({
     // TO-DO: add comment schema properties
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+    author: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: String,
     },
     postId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -18,4 +21,4 @@ const CommentSchema = new mongoose.Schema({
     text: String
 });
 
-module.exports = mongoose.model("User", CommentSchema);
+module.exports = mongoose.model("Comment", CommentSchema);
