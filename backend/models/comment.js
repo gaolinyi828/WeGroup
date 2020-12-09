@@ -1,13 +1,9 @@
 const mongoose = require("mongoose");
 
 const CommentSchema = new mongoose.Schema({
-    // TO-DO: add comment schema properties
-    author: {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        },
-        username: String,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     },
     postId: {
         type: mongoose.Schema.Types.ObjectId,
