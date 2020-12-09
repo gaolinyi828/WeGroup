@@ -26,15 +26,17 @@ router.get("/", function (req, res) {
 /**
  * Add a new comment to database
  *
- * @param user
+ * @param user id
  * @param post id
+ * @param comment text
  * @return status 400 if input is invalid
  *         status 201 with new comment object
  */
 router.post('/create', (req, res) => {
     const comment = new Comment({
-        author: {id: req.user._id, username: req.user.username},
-        postId: req.params.id
+        user: req.user._id,
+        postId: req.params.id,
+        text: req.params.comment,
     });
     comment.save((err, comment) => {
         if (err) {
@@ -48,13 +50,13 @@ router.post('/create', (req, res) => {
 /**
  * Edit comment
  *
- * @param commentId
+ * @param id comment id to edit
  * @param comment
  * @return status 404 if something went wrong
  *         status 200 with comment object
  */
-router.put('/commentId', (req, res) => {
-    Comment.findByIdAndUpdate(req.params.commentId, req.body.comment, (err, comment) => {
+router.put('/:id', (req, res) => {
+    Comment.findByIdAndUpdate(req.params.id, req.body.comment, (err, comment) => {
         if (err) {
             res.status(404).send("Something went wrong");
         } else {
