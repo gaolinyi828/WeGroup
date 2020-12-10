@@ -84,7 +84,7 @@ router.delete('/post/delete/:postId', (req, res)=> {
  *         status 200 with posts
  */
 router.get('/post/byUser/:id', (req, res) => {
-    Post.find({purchased_by: req.params.id}, (err, posts) => {
+    Post.find({userId: req.params.id}, (err, posts) => {
         if (err) {
             res.status(404).send("Something went wrong");
         } else {
@@ -100,8 +100,8 @@ router.get('/post/byUser/:id', (req, res) => {
  * @return status 404 if something went wrong
  *         status 200 with posts
  */
-router.get('/post/byUser/:tag', (req, res) => {
-    Post.find({purchased_by: req.params.tag}, (err, posts) => {
+router.get('/post/byTag/:tag', (req, res) => {
+    Post.find({tag: req.params.tag}, (err, posts) => {
         if (err) {
             res.status(404).send("Something went wrong");
         } else {
@@ -118,7 +118,7 @@ router.get('/post/byUser/:tag', (req, res) => {
  *         status 200 with posts
  */
 router.get('/post/InteratedByUser/:id', (req, res) => {
-    User.find({purchased_by: req.params.id}, (err, user) => {
+    User.findById(req.params.id, (err, user) => {
         if (err) {
             res.status(404).send("Something went wrong");
         } else {
