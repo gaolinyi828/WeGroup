@@ -1,6 +1,6 @@
 let _singleton = Symbol();
-const BASIC_URL = 'http://localhost:3000/';
-const USER_API_URL = 'http://localhost:3000/users';
+const BASIC_URL = 'http://localhost:8080';
+const USER_API_URL = 'http://localhost:8080/users';
 
 
 class UserService {

@@ -16,18 +16,21 @@ export default function (state = initialState, action) {
         case SIGN_UP:
             return {
                 ...state,
-                ...payload
+                ...payload,
+                isAuthenticated: true
             };
         case LOG_IN:
             return {
                 ...state,
-                ...payload
+                ...payload,
+                isAuthenticated: true
             };
         case LOG_OUT:
             return {
                 ...state,
                 token: null,
-                user: null
+                user: null,
+                isAuthenticated: false
             };
         default:
             return state;
