@@ -33,8 +33,14 @@ router.post('/post', (req, res) => {
             console.log(err);
             res.status(400).send("invalid input");
         } else {
-            //redirect back to posts page
-            res.status(201).send(newPost);
+            console.log(userId);
+            User.findOneAndUpdate({_id:userId}, {"$push": {"postsCreatedByUser": newPost._id}}, (err, newUser) => {
+                if (err) {
+                    res.status(404).send("Something went wrong");
+                } else {
+                    res.status(200).send(newUser);
+                }
+            });
         }
     });
 });
@@ -67,10 +73,18 @@ router.put('/post/update/:postId',  (req, res) => {
  *         status 200 if successfully delete
  */
 router.delete('/post/delete/:postId', (req, res)=> {
-    Post.findByIdAndDelete(req.params.postId, (err) => {
+    Post.findByIdAndDelete(req.params.postId, (err, post) => {
         if (err) {
             res.status(404).send("Delete failure");
         } else {
+            console.log(post);
+            User.findOneAndUpdate({_id:post.userId}, {"$pull": {"postsCreatedByUser": post._id}}, (err, newUser) => {
+                if (err) {
+                    res.status(404).send("Something went wrong");
+                } else {
+                    res.status(200).send(newUser);
+                }
+            });
             res.status(200).send("Successfully delete");
         }
     });
