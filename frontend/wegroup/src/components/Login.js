@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { login } from '../actions';
+import { connect } from 'react-redux';
+import { Redirect} from 'react-router';
 import WeGroupNavbar from "../containers/WeGroupNavbar";
 
 class Login extends Component {
     constructor(props) {
         super(props);
 
+        this.loginUser = this.loginUser.bind(this);
         this.passwordChanged = this.passwordChanged.bind(this);
         this.usernameChanged = this.usernameChanged.bind(this);
         this.state = {
@@ -15,6 +19,11 @@ class Login extends Component {
                 password: ''
             }
         }
+    }
+
+    loginUser(e) {
+        e.preventDefault();
+        this.props.login(this.state.user);
     }
 
     usernameChanged(e) {
@@ -26,13 +35,18 @@ class Login extends Component {
     }
 
     render() {
+        const auth = localStorage.getItem('token');
+        if (auth) {
+            return <Redirect to="/activity" />;
+        }
+
         return (
             <div>
                 <WeGroupNavbar />
                 <Container fluid>
                     <Row>
                         <Col xs={{span: 4, offset: 4}}>
-                            <Form style={{padding: '5rem'}}>
+                            <Form onSubmit={this.loginUser} style={{padding: '5rem'}}>
                                 <div style={{textAlign: 'center', marginTop: '1rem', marginBottom: '4rem'}}>
                                     <h1>WeGroup</h1>
                                 </div>
@@ -60,4 +74,9 @@ class Login extends Component {
     }
 }
 
-export default Login;
+const mapDispatchToProps
+    = dispatch => ({
+    login: (user) => login(dispatch, user)
+})
+
+export default connect(mapDispatchToProps)(Login);
