@@ -5,6 +5,7 @@ import PostForm from "./components/PostForm";
 import React from "react";
 import UserProfile from "./containers/UserProfile";
 import TabForm from "./components/TabForm";
+import SideNav from "./components/SideNav";
 
 function App() {
   return (
@@ -28,6 +29,10 @@ function App() {
         <Route exact path="/tab_form_create">
           <TabForm search={false}/>
         </Route>
+        <Route exact path="/sidenav">
+          <SideNav />
+        </Route>
+
       </Switch>
     </Router>
   );

@@ -1,0 +1,15 @@
+.sidenav {
+    position: fixed;
+    height: 100vh;
+    min-height: 100%;
+    /*display: flex;*/
+    flex-direction: column;
+    width: 150px;
+}
+.item {
+    /*flex: 1 !important;*/
+    margin: auto;
+    justify-content: center !important;
+    align-items: center !important;
+
+}

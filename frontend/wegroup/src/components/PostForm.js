@@ -4,7 +4,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 
-const PostForm = ({}) => {
+const PostForm = () => {
     const history = useHistory();
     const onClickSearch = () => {
         history.push('/tab_form_search');
