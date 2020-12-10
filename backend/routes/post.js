@@ -100,7 +100,7 @@ router.get('/post/byUser/:id', (req, res) => {
  * @return status 404 if something went wrong
  *         status 200 with posts
  */
-router.get('/post/byUser/:tag', (req, res) => {
+router.get('/post/byTag/:tag', (req, res) => {
     Post.find({tag: req.params.tag}, (err, posts) => {
         if (err) {
             res.status(404).send("Something went wrong");
