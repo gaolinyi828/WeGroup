@@ -1,15 +1,42 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Image, Tabs, Tab } from "react-bootstrap";
 import WeGroupNavbar from "./WeGroupNavbar";
-
-import "../styles/UserProfile.css"
 import GroupTab from "../components/GroupTab";
 import PostTab from "../components/PostTab";
 import InterestedTab from "../components/InterestedTab";
+import "../styles/UserProfile.css"
 
+import UserService from "../services/UserService";
 
 class UserProfile extends Component {
+    constructor(props) {
+        super(props);
+        this.userService = UserService.instance;
+
+        this.state = {
+            user: {
+                _id: '',
+                username: ''
+            }
+        }
+    }
+
+    componentDidMount() {
+        this.userService.loadUser().then(res => res.json()).then(res => {
+            this.setState({
+                user: {
+                    _id: res._id,
+                    username: res.username,
+                    groups: res.teams,
+                    posts: res.postsCreatedByUser,
+                    interested_posts: res.postsInteracted
+                }
+            });
+        })
+    }
+
     render() {
+        console.log(this.state);
         return (
             <div>
                 <WeGroupNavbar />
@@ -20,21 +47,21 @@ class UserProfile extends Component {
                         </Col>
                         <Col xs={3}>
                             <h4>Good Morning,</h4>
-                            <h4>XXX</h4>
-                            <p>UserId: XXXX</p>
+                            <h4>{this.state.user.username}</h4>
+                            <p style={{marginTop: '2rem'}}>UserId: {this.state.user._id}</p>
                             <hr />
                             <p>Change Password</p>
                             <hr />
                         </Col>
                         <Col xs={6}>
                             <Tabs style={{width: '100%', textAlign: 'center'}} defaultActiveKey="tabs" id="uncontrolled-tab-example">
-                                <Tab style={{width: '33%'}} eventKey="group" title="My Group">
+                                <Tab eventKey="group" title="My Group">
                                     <GroupTab />
                                 </Tab>
-                                <Tab style={{width: '33%'}} eventKey="post" title="My Post">
+                                <Tab eventKey="post" title="My Post">
                                     <PostTab />
                                 </Tab>
-                                <Tab style={{width: '33%'}} eventKey="interested" title="Interested Post">
+                                <Tab eventKey="interested" title="Interested Post">
                                     <InterestedTab />
                                 </Tab>
                             </Tabs>
