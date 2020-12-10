@@ -1,0 +1,29 @@
+.nav-item {
+    text-align: center;
+    width: 100%
+}
+
+.main-page {
+    margin-left: 130px;
+    width: calc(100% - 130px);
+    height: 91vh;
+    min-height: 100%;
+}
+
+.row{
+    height: 100%
+}
+
+.nav-pills .nav-link {
+    color: black;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #edebe9;
+    color: brown;
+    border: none;
+}
+
+.nav-pills .nav-link:hover {
+    background-color: #f3f2f1;
+}
