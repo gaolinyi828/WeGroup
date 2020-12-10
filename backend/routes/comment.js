@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Comment = require("../models/comment");
 const Post = require("../models/post");
+const User = require("../models/user");
 
 
 /**
@@ -9,17 +10,15 @@ const Post = require("../models/post");
  *
  * @param post id
  * @return status 404 if something went wrong
- *         status 200 with post objects
+ *         status 200 with comment objects
  */
-router.get("/", function (req, res) {
-    Post.findById(req.params.id).populate({
-        path: "comments",
-        options: {sort: {createdAt: -1}} // sorting the populated comments array to show the latest first
-    }).exec(function (err, post) {
-        if (err || !post) {
+router.get('/', (req, res) => {
+    Comment.find({postId: req.body.postId}, (err, comments) => {
+        if (err) {
             res.status(404).send("Something went wrong");
+        } else {
+            res.status(200).send(comments);
         }
-        res.status(200).send(post);
     });
 });
 
@@ -34,15 +33,31 @@ router.get("/", function (req, res) {
  */
 router.post('/create', (req, res) => {
     const comment = new Comment({
-        user: req.user._id,
-        postId: req.params.id,
-        text: req.params.comment,
+        user: req.body.userId,
+        postId: req.body.postId,
+        text: req.body.text,
     });
     comment.save((err, comment) => {
         if (err) {
             res.status(400).send("invalid input");
         } else {
             res.status(201).send(comment);
+        }
+    });
+    Post.findById(req.body.postId, (err, post) => {
+        if (err) {
+            res.status(404).send("Something went wrong");
+        } else {
+            post.comments.push(comment);
+            post.save();
+            User.findById(req.body.userId, (err, user) => {
+                if (err) {
+                    res.status(404).send("Something went wrong");
+                } else {
+                    user.postsInteracted.push(post);
+                    user.save();
+                }
+            });
         }
     });
 });
@@ -56,7 +71,7 @@ router.post('/create', (req, res) => {
  *         status 200 with comment object
  */
 router.put('/:id', (req, res) => {
-    Comment.findByIdAndUpdate(req.params.id, req.body.comment, (err, comment) => {
+    Comment.findByIdAndUpdate(req.params.id, {text: req.body.text}, (err, comment) => {
         if (err) {
             res.status(404).send("Something went wrong");
         } else {
@@ -72,7 +87,22 @@ router.put('/:id', (req, res) => {
  * @return status 404 if fail to delete
  *         status 200 if successfully delete
  */
-router.delete('/delete/:id', (req, res)=> {
+router.delete('/:id', (req, res) => {
+    Comment.findById(req.params.id, (err, comment) => {
+        if (err) {
+            res.status(404).send("Something went wrong");
+        } else {
+            Post.findById(comment.postId, (err, post) => {
+                if (err) {
+                    res.status(404).send("Something went wrong");
+                } else {
+                    let i = post.comments.indexOf(comment);
+                    post.comments.splice(i, 1);
+                    post.save();
+                }
+            });
+        }
+    })
     Comment.findByIdAndDelete(req.params.id, (err) => {
         if (err) {
             res.status(404).send("Delete failure");
