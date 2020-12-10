@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const port = process.env.PORT || 3000;
 const indexRoutes = require("./routes/index");
 const tagRoutes = require("./routes/tag");
+const teamRoutes = require("./routes/team");
 const commentRoutes = require("./routes/comment");
 
 app.use(express.json());
