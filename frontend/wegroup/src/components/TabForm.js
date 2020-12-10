@@ -47,7 +47,7 @@ const TabForm = (props) => {
                         </Form.Group>
 
                         <Form.Group as={Row}>
-                            {props.search == true  && <Col sm={{ span: 10, offset: 2 }}>
+                            {props.search && <Col sm={{ span: 10, offset: 2 }}>
                                 <Button type="submit">Search</Button>
                             </Col>}
                             {!props.search && <Col sm={{ span: 10, offset: 2 }}>
