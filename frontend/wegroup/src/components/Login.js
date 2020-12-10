@@ -35,7 +35,7 @@ class Login extends Component {
     }
 
     render() {
-        if (this.props.isAuthenticated) {
+        if (this.props.isAuthenticated || localStorage.getItem('token')) {
             return <Redirect to="/activity" />;
         }
 
