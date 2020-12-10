@@ -6,6 +6,7 @@ const indexRoutes = require("./routes/index");
 const tagRoutes = require("./routes/tag");
 const teamRoutes = require("./routes/team");
 const commentRoutes = require("./routes/comment");
+const userRoutes = require("./routes/user");
 
 app.use(express.json());
 
