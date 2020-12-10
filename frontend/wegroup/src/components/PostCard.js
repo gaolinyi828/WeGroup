@@ -1,29 +1,21 @@
 import React, { Component } from 'react';
-import { Jumbotron, Button, Container, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import WeGroupNavbar from "../containers/WeGroupNavbar";
+import { Card } from 'react-bootstrap';
 
 class PostCard extends Component {
-    constructor(props) {
-        super(props);
-
-        this.postId = this.postId.bind(this);
-        this.currentPost = this.getPostByPostId(this.postId)
-    }
 //param postid, render a card showing post name, who posted it(show profile image), user name, posted date, and some comments, set a max length of xxx
     render() {
         return (
-            <Jumbotron>
-                <h3>currentPost.name</h3>
-                <p>
-                    <span>User.getUser(Post.userId).name</span>
-                    <span>&nbsp; &nbsp; &nbsp;</span>
-                    <span>Post.createdAt</span>
-                </p>
-                <p>
-                    currentPost.content
-                </p>
-            </Jumbotron>
+            <Card style={{ width: '38rem' }}>
+                <Card.Body>
+                    <Card.Title>{this.props.post.title}</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">Post Subtitle</Card.Subtitle>
+                    <Card.Text>
+                        Post Content
+                    </Card.Text>
+                    <Card.Link href="#">Card Link</Card.Link>
+                    <Card.Link href="#">Another Link</Card.Link>
+                </Card.Body>
+            </Card>
         )
     }
 }
