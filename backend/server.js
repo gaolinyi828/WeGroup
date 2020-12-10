@@ -16,6 +16,7 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 app.use('/', indexRoutes);
 app.use('/tags', tagRoutes);
 app.use('/teams', teamRoutes);
+app.use('/users', userRoutes);
 app.use('/post/:id/comment', commentRoutes);
 app.use('/', require('./routes/post'));
 app.use('/', require('./routes/user'));
