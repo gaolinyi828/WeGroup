@@ -1,5 +1,4 @@
 let _singleton = Symbol();
-const BASIC_URL = 'http://localhost:8080';
 const USER_API_URL = 'http://localhost:8080/users';
 
 
@@ -16,7 +15,7 @@ class UserService {
     }
 
     createUser(user) {
-        return fetch(`${BASIC_URL}/signup`, {
+        return fetch(`${USER_API_URL}/signup`, {
             body: JSON.stringify(user),
             headers: {
                 'Content-Type': 'application/json'
@@ -26,13 +25,24 @@ class UserService {
     }
 
     loginUser(user) {
-        return fetch(`${BASIC_URL}/login`, {
+        return fetch(`${USER_API_URL}/login`, {
             body: JSON.stringify(user),
             headers: {
                 'Content-Type': 'application/json'
             },
             method: 'POST'
         });
+    }
+
+    loadUser() {
+        const token = localStorage.getItem('token');
+        return fetch(`${USER_API_URL}/auth`, {
+            headers: {
+                'x-auth-token': token,
+                'Content-Type': 'application/json'
+            },
+            method: 'GET'
+        })
     }
 
     updateUser(user) {
