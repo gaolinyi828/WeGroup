@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Redirect} from 'react-router';
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import PostForm from "./components/PostForm";
@@ -12,6 +13,9 @@ function App() {
   return (
     <Router>
       <Switch>
+        <Route exact path="/">
+          <Redirect to="/login" />
+        </Route>
         <Route exact path="/login">
           <Login />
         </Route>
