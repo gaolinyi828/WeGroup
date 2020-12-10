@@ -35,8 +35,7 @@ class Login extends Component {
     }
 
     render() {
-        const auth = localStorage.getItem('token');
-        if (auth) {
+        if (this.props.isAuthenticated) {
             return <Redirect to="/activity" />;
         }
 
@@ -74,9 +73,12 @@ class Login extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    isAuthenticated: state.isAuthenticated
+});
 const mapDispatchToProps
     = dispatch => ({
     login: (user) => login(dispatch, user)
 })
 
-export default connect(mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
