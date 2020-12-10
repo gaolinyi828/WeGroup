@@ -1,13 +1,16 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const port = process.env.PORT || 3000;
+const cors = require('cors');
 const indexRoutes = require("./routes/index");
 const tagRoutes = require("./routes/tag");
 const teamRoutes = require("./routes/team");
 const commentRoutes = require("./routes/comment");
 
+const port = process.env.PORT || 8080;
+
 app.use(express.json());
+app.use(cors());
 
 const uri = "mongodb+srv://new_user:55001234@cluster0.tpbel.mongodb.net/WeGroup?retryWrites=true&w=majority";
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });

@@ -2,8 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const router = express.Router({mergeParams: true});
-const middleware = require("../middleware");
-const auth = require('../middleware/auth');
 
 const jwt = require('jsonwebtoken');
 const secret = 'massacre';
@@ -55,4 +53,4 @@ router.get('/users/:id', (req, res) => {
 });
 
 
-module.export = router;
+module.exports = router;
