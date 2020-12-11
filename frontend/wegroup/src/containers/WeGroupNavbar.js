@@ -4,6 +4,7 @@ import { logout } from "../actions";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 import { connect } from "react-redux";
+import "../styles/WeGroupNavbar.css"
 
 class WeGroupNavbar extends Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class WeGroupNavbar extends Component {
 
     render() {
         return (
-            <Navbar bg="danger" expand="lg">
+            <Navbar className={'topnav'} bg="danger" expand="lg">
                 <Navbar.Brand style={{color: 'white'}} href="/">WeGroup</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">

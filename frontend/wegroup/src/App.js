@@ -10,6 +10,7 @@ import SideNav from "./components/SideNav";
 import ActivityPage from "./containers/ActivityPage";
 import { Provider } from "react-redux";
 import store from './store';
+import PostDetailPage from "./containers/PostDetailPage";
 
 function App() {
   return (
@@ -33,6 +34,9 @@ function App() {
             </Route>
             <Route exact path="/activity">
               <ActivityPage />
+            </Route>
+            <Route exact path="/post_detail">
+              <PostDetailPage />
             </Route>
             <Route exact path="/tab_form_search">
               <TabForm search={true}/>
