@@ -38,15 +38,17 @@ Use a feature branch workflow by committing branches and submit pull requests to
 2. User could search post by tags
 3. User could create/update/delete post
 4. User could add comment to other posts
-5. User could click "Join team" button on post to express willingness to join tem
-6. The post owner could form team by click "Form team button" and select teammates from those who clicked "Join Team" button.
-7. The post's status will be closed after team has been formed.  
+5. User could click "Join team" button on post to express willingness to join them
+6. The post owner could form a team by clicking the "Form team button" and selecting teammates from those who clicked the "Join Team" button.
+7. The post's status will be closed after the team has been formed.
+
 
 **Milestone 2**
 1. Once team has been formed, user could access the team chat room from its "My Teams" menu
-2. User could send message, photo, emoji and share files in charroom.
+2. Users could send messages, photos, emoji and share files in the chatroom.
 3. Team chat room has a find meeting time slot function
-4. Team chat room has an annoucement section to post important messages such as team info, github link, google doc link, etc.
+4. Team chat room has an announcement section to post important messages such as team info, github link, google doc link, etc.
+
 
 ## Project Repo
 ### docs
