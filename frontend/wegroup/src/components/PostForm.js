@@ -4,15 +4,18 @@ import React, {useEffect, useState} from "react";
 import Select from "react-select";
 import TagService from "../services/TagService";
 import PostService from "../services/PostService";
+import UserService from "../services/UserService";
 
 const PostForm = () => {
     const [formData, setFormData] = useState({
         text: '',
         tagId : '',
+        userId: '',
     })
     const tagService = TagService.instance;
     const postService = PostService.instance;
-    const fetchData = () => {
+    const userService = UserService.instance;
+    const fetchTag = () => {
         tagService.getAllTags().then(res => res.json()).then(res => {
             setAllTags(res);
             let tagOptions = [];
@@ -24,16 +27,22 @@ const PostForm = () => {
             })
             setAllTags(tagOptions);
         })
+
     }
 
+    const fetchUser= () => {
+        userService.loadUser().then(res => res.json()).then(res => {
+            setFormData({...formData, userId: res._id});
+        })
+    }
+
+
     const handleOnSubmit = () => {
-        console.log("inside handle submit");
         postService.createPost(formData).then(r => {
             if (r.status !== 200) {
-                console.log("status not 200");
+                // console.log("status not 200");
                 alert("Something went wrong when creating post!");
             } else {
-                console.log("submit succeed: "+ r.status);
                 setFormData({
                     text: '',
                     tagId : '',
@@ -43,7 +52,10 @@ const PostForm = () => {
     }
 
     const [allTags, setAllTags] = useState([]);
-    useEffect(() => fetchData(),[]);
+    useEffect(() => {
+        fetchTag();
+        fetchUser();
+    },[]);
     const selectOptions = [
         {value: 'CS5500-FALL-2020', label: 'CS5500-FALL-2020'},
         {value: 'CS5610-FALL-2020', label: 'CS5610-FALL-2020'},
@@ -54,10 +66,6 @@ const PostForm = () => {
     const handleChange = (newValue: any, actionMeta: 'select-option') => {
         setTag(newValue);
         setFormData({...formData, 'tagId': newValue.tagId})
-        if (newValue) {
-            console.log("handle on change" + newValue.tagId);
-        }
-        console.log("form data in tag select:"+ formData.tagId);
     }
 
     const handleOnChange = (e) => {
