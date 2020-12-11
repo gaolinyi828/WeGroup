@@ -10,34 +10,34 @@ import { Nav} from "react-bootstrap";
 // need to add nav panels
 const SideNav = () => {
     return (
-            <Nav className={'sidenav'} style={{backgroundColor: '#692929'}}>
+            <Nav className={'sidenav'} style={{backgroundColor: '#692929', color: '#0a0a0a', textAlign: 'center'}}>
                 <Nav.Item className={'item'}>
-                    <Nav.Link style={{color: '#0a0a0a', textAlign: 'center'}}>
+                    <Nav.Link>
                         <Row>
-                            <NotificationsActiveIcon style={{fontSize: '4rem', color: 'white', margin: 'auto'}} />
+                            <NotificationsActiveIcon style={{fontSize: '3rem', color: 'white', margin: 'auto'}} />
                         </Row>
                         <Row>
-                            <div style={{margin: 'auto', color: 'white'}} >Activity</div>
+                            <div style={{margin: 'auto', color: 'white', fontSize: '12px'}} >Activity</div>
                         </Row>
                     </Nav.Link>
                 </Nav.Item>
                 <Nav.Item className={'item'}>
                     <Nav.Link style={{color: '#0a0a0a'}}>
                         <Row>
-                            <QuestionAnswerIcon style={{fontSize: '4rem', color: 'white', margin: 'auto'}} />
+                            <QuestionAnswerIcon style={{fontSize: '3rem', color: 'white', margin: 'auto'}} />
                         </Row>
                         <Row>
-                            <div style={{margin: 'auto', color: 'white'}}>Chat</div>
+                            <div style={{margin: 'auto', color: 'white', fontSize: '12px'}}>Chat</div>
                         </Row>
                     </Nav.Link>
                 </Nav.Item>
                 <Nav.Item className={'item align-item-center'}>
                     <Nav.Link style={{color: '#0a0a0a'}}>
                         <Row>
-                            <EventNoteIcon style={{fontSize: '4rem', color: 'white', margin: 'auto'}} />
+                            <EventNoteIcon style={{fontSize: '3rem', color: 'white', margin: 'auto'}} />
                         </Row>
                         <Row>
-                            <div style={{margin: 'auto', color: 'white'}}>Calendar</div>
+                            <div style={{margin: 'auto', color: 'white', fontSize: '12px'}}>Calendar</div>
                         </Row>
                     </Nav.Link>
                 </Nav.Item>
