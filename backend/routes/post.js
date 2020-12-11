@@ -2,6 +2,30 @@ const express = require("express");
 const router = express.Router();
 const Post = require("../models/post");
 const User = require("../models/user");
+const multer = require('multer');
+const uuidv4 = require('uuid/v4');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, DIR);
+    },
+    filename: (req, file, cb) => {
+        const fileName = file.originalname.toLowerCase().split(' ').join('-');
+        cb(null, uuidv4() + '-' + fileName)
+    }
+});
+
+var upload = multer({
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg") {
+            cb(null, true);
+        } else {
+            cb(null, false);
+            return cb(new Error('Item picture only allows .png, .jpg and .jpeg format'));
+        }
+    }
+});
 
 /**
 *   CREATE - add a new post to DB
@@ -9,10 +33,11 @@ const User = require("../models/user");
 *   @return status 400 if invalid input
  *         status 201 with a new item added
 */
-router.post('/post', (req, res) => {
+router.post('/post', upload.single('img'), (req, res) => {
+    const url = req.protocol + '://' + req.get('host');
     // get data from request
     const userId = req.body.userId;
-    const tag = req.body.tag;
+    const tagId = req.body.tagId;
     const teamSize = req.body.teamSize;
     const createdAt = new Date();
     const comments = req.body.comments;
@@ -20,12 +45,13 @@ router.post('/post', (req, res) => {
     const text = req.body.text;
     const newPost = new Post({
         userId: userId,
-        tag:tag,
+        tagId:tagId,
         teamSize: teamSize,
         createdAt: createdAt,
         comments: comments,
         interested:interested,
-        text: text
+        text: text,
+        img : url + '/public/' + req.file.filename
     });
 
     newPost.save((err, newPost) => {

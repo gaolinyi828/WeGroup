@@ -8,6 +8,7 @@ import UserProfile from "./containers/UserProfile";
 import TabForm from "./components/TabForm";
 import SideNav from "./components/SideNav";
 import ActivityPage from "./containers/ActivityPage";
+import CalendarPage from "./containers/CalendarPage";
 import { Provider } from "react-redux";
 import store from './store';
 import PostDetailPage from "./containers/PostDetailPage";
@@ -51,6 +52,9 @@ function App() {
             <Route exact path="/create_post">
               <PostCreate/>
             </Route>
+              <Route exact path="/calendar">
+                  <CalendarPage />
+              </Route>
           </Switch>
         </Router>
       </Provider>
