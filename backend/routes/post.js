@@ -45,6 +45,8 @@ router.post('/post', upload.single('img'), (req, res) => {
     const comments = req.body.comments;
     const interested = req.body.interested;
     const text = req.body.text;
+    const title = req.body.title;
+    const hasFormedGroup = false;
     const newPost = new Post({
         userId: userId,
         tagId:tagId,
@@ -53,7 +55,9 @@ router.post('/post', upload.single('img'), (req, res) => {
         comments: comments,
         interested:interested,
         text: text,
-        img: req.file ? url + '/public/' + req.file.filename : null
+        img: req.file ? url + '/public/' + req.file.filename : null,
+        title: title,
+        hasFormedGroup: hasFormedGroup
     });
 
     newPost.save(async(err, newPost) => {
@@ -75,7 +79,7 @@ router.post('/post', upload.single('img'), (req, res) => {
 });
 
 /**
- * Update a post
+ * Update a post's text
  *
  * @param postId  post to update
  * @param user_id user who buy the item
@@ -83,7 +87,7 @@ router.post('/post', upload.single('img'), (req, res) => {
  *         status 200 with item objects
  */
 
-router.put('/post/update/:postId',  (req, res) => {
+router.put('/post/updateText/:postId',  (req, res) => {
     var postId = req.params.postId;
     Post.findByIdAndUpdate(postId, {text: req.body.text}, (err, post) => {
         if (err) {
