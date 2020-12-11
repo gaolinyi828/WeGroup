@@ -7,7 +7,7 @@ const PostSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
-    tag: {
+    tagId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Tag",
         required: true
@@ -24,7 +24,8 @@ const PostSchema = new mongoose.Schema({
     interested: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
 
     // not sure if we need title, description, image, etc.
-    text: String
+    text: String,
+    img: String
 });
 
 module.exports = mongoose.model("Post", PostSchema);
