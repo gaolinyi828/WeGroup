@@ -32,6 +32,7 @@ class UserProfile extends Component {
                     interested_posts: res.postsInteracted
                 }
             });
+            console.log("user Id inside profile: "+ res._id);
         })
     }
 

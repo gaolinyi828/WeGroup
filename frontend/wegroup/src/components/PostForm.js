@@ -1,27 +1,77 @@
 import  {Form, Row, Col, Button} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Select from "react-select";
-
+import TagService from "../services/TagService";
+import PostService from "../services/PostService";
+import UserService from "../services/UserService";
 
 const PostForm = () => {
+    const [formData, setFormData] = useState({
+        text: '',
+        tagId : '',
+        userId: '',
+    })
+    const tagService = TagService.instance;
+    const postService = PostService.instance;
+    const userService = UserService.instance;
+    const fetchTag = () => {
+        tagService.getAllTags().then(res => res.json()).then(res => {
+            setAllTags(res);
+            let tagOptions = [];
+            res.map((tag) => {
+                const tagString = tag.department+'-'+tag.courseNumber+'-'+tag.semester+'-'+tag.year;
+                const option = {value: tagString, label: tagString, tagId: tag._id};
+                tagOptions.push(option);
+                return;
+            })
+            setAllTags(tagOptions);
+        })
+
+    }
+
+    const fetchUser= () => {
+        userService.loadUser().then(res => res.json()).then(res => {
+            setFormData({...formData, userId: res._id});
+        })
+    }
+
+
+    const handleOnSubmit = () => {
+        postService.createPost(formData).then(r => {
+            if (r.status !== 200) {
+                // console.log("status not 200");
+                alert("Something went wrong when creating post!");
+            } else {
+                setFormData({
+                    text: '',
+                    tagId : '',
+                })
+            }
+        })
+    }
+
+    const [allTags, setAllTags] = useState([]);
+    useEffect(() => {
+        fetchTag();
+        fetchUser();
+    },[]);
     const selectOptions = [
         {value: 'CS5500-FALL-2020', label: 'CS5500-FALL-2020'},
         {value: 'CS5610-FALL-2020', label: 'CS5610-FALL-2020'},
         {value: 'CS5800-FALL-2020', label: 'CS5800-FALL-2020'}
         ]
-    // const history = useHistory();
-    // const onClickSearch = () => {
-    //     history.push('/tab_form_search');
-    // }
-    // const onClickCreate = () => {
-    //     history.push('/tab_form_create');
-    // }
     const [selectedTag, setTag] = useState(null);
 
     const handleChange = (newValue: any, actionMeta: 'select-option') => {
         setTag(newValue);
+        setFormData({...formData, 'tagId': newValue.tagId})
     }
+
+    const handleOnChange = (e) => {
+        setFormData({...formData, [e.target.name]: e.target.value})
+    }
+
 
     return (
         <div>
@@ -35,7 +85,7 @@ const PostForm = () => {
                             </Form.Group>
                             <Form.Group controlId="postDescription">
                                 <Form.Label>Project Description</Form.Label>
-                                <Form.Control as="textarea" rows={3} />
+                                <Form.Control as="textarea" rows={3} name="text" onChange={handleOnChange} value={formData.text}/>
                             </Form.Group>
                             <Form.Group controlId="Tags">
                                 <Form.Label>Tags</Form.Label>
@@ -48,12 +98,12 @@ const PostForm = () => {
                                 isRtl={false}
                                 isSearchable={true}
                                 name="tag"
-                                options={selectOptions}
+                                options={allTags}
                                 value={selectedTag}
                                 onChange={handleChange}
                                 />
                             </Form.Group>
-                            <Button variant="primary" type="submit" style={{backgroundColor: '#eb2b2b', border: "none"}}>
+                            <Button variant="primary" style={{backgroundColor: '#eb2b2b', border: "none"}} onClick={handleOnSubmit}>
                                 Submit
                             </Button>
                         </Form>
@@ -64,9 +114,5 @@ const PostForm = () => {
     )
 }
 
-// <div>
-//     <Button variant="secondary" size="sm" style={{marginRight: '1rem'}} onClick={onClickSearch}>Select Tag</Button>
-//     <Button variant="secondary" size="sm" onClick={onClickCreate}>Create New Tag</Button>
-// </div>
 
 export default PostForm;
