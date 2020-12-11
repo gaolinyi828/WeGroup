@@ -51,7 +51,7 @@ router.post('/post', upload.single('img'), (req, res) => {
         comments: comments,
         interested:interested,
         text: text,
-        img : url + '/public/' + req.file.filename
+        img: req.file ? url + '/public/' + req.file.filename : null
     });
 
     newPost.save((err, newPost) => {
