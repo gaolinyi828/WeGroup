@@ -1,7 +1,6 @@
 import  {Form, Row, Col, Button} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import React, {useState} from "react";
-import { useHistory } from "react-router-dom";
 import Select from "react-select";
 
 
@@ -11,13 +10,13 @@ const PostForm = () => {
         {value: 'CS5610-FALL-2020', label: 'CS5610-FALL-2020'},
         {value: 'CS5800-FALL-2020', label: 'CS5800-FALL-2020'}
         ]
-    const history = useHistory();
-    const onClickSearch = () => {
-        history.push('/tab_form_search');
-    }
-    const onClickCreate = () => {
-        history.push('/tab_form_create');
-    }
+    // const history = useHistory();
+    // const onClickSearch = () => {
+    //     history.push('/tab_form_search');
+    // }
+    // const onClickCreate = () => {
+    //     history.push('/tab_form_create');
+    // }
     const [selectedTag, setTag] = useState(null);
 
     const handleChange = (newValue: any, actionMeta: 'select-option') => {

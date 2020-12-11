@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import {Jumbotron, Button, Container, Row, Col, Tab, Image} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import {Jumbotron, Button, Row,Tab,} from 'react-bootstrap';
 import CommentItem from "./CommentItem";
 import CommentForm from "./CommentForm";
-import PostCard from "./PostCard";
 
 const commentsArray = ['tab1', 'tab2', 'tab3', 'tab4'];
 class Post extends Component {
