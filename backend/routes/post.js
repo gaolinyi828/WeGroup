@@ -64,7 +64,7 @@ router.post('/post', upload.single('img'), (req, res) => {
             try {
                 let newUser = await User.findOneAndUpdate({_id: userId},
                     {"$push": {"postsCreatedByUser": newPost._id}});
-                let newTag = await Tag.findOneAndUpdate({_id: tag}, {"$push": {"posts": newPost._id}});
+                let newTag = await Tag.findOneAndUpdate({_id: tagId}, {"$push": {"posts": newPost._id}});
                 await Promise.all([newUser, newTag]);
                 res.status(200).send(newPost);
             } catch (err){
