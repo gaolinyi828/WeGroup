@@ -19,7 +19,7 @@ const PostForm = () => {
         tagService.getAllTags().then(res => res.json()).then(res => {
             setAllTags(res);
             let tagOptions = [];
-            res.map((tag) => {
+            res.forEach((tag) => {
                 const tagString = tag.department+'-'+tag.courseNumber+'-'+tag.semester+'-'+tag.year;
                 const option = {value: tagString, label: tagString, tagId: tag._id};
                 tagOptions.push(option);
@@ -55,6 +55,7 @@ const PostForm = () => {
     useEffect(() => {
         fetchTag();
         fetchUser();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
     const selectOptions = [
         {value: 'CS5500-FALL-2020', label: 'CS5500-FALL-2020'},

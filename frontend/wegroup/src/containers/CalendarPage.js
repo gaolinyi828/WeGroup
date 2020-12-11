@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import {Nav, Tab, Container, Row, Col, Image} from 'react-bootstrap';
+import {Nav, Container} from 'react-bootstrap';
 import SideNav from "../components/SideNav";
 import WeGroupNavbar from "./WeGroupNavbar";
-import GroupTab from "../components/GroupTab";
 import Calendar from "../components/Calendar";
 
-// import "../styles/ActivityPage.css"
-// import PostCard from "../components/PostCard";
 
 const tabs = ['tab1', 'tab2', 'tab3', 'tab4'];
 
