@@ -1,9 +1,6 @@
-.nav-item {
-    text-align: center;
-    width: 100%
-}
-
 .main-page {
+    top: 3em;
+    position: relative;
     margin-left: 130px;
     width: calc(100% - 130px);
     height: 91vh;

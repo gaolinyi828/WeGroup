@@ -9,79 +9,94 @@ const Team = require('../models/team');
  *
  */
 router.post(
-    '/team', async (req, res) => {
-        try {
-            const newTeam = new Team({
-                userId: req.body.userId,
-                members: req.body.interested,
-                teamName: req.body.text,
-                postId: req.post.id,
-                tag: req.body.tag
-            });
-
-            const team = await newTeam.save();
-
-            res.json(team);
-        } catch (err) {
-            console.error(err.message);
-            res.status(500).send('Server Error');
+    '/team', (req, res) => {
+    const newTeam = new Team({
+        userId: req.body.userId,
+        members: req.body.interested,
+        teamName: req.body.text,
+        postId: req.body.postId,
+        tag: req.body.tag,
+    });
+    newTeam.save((err, newTeam) => {
+        if (err) {
+            console.log(err);
+            res.status(400).send("invalid input");
+        } else {
+            console.log()
+            res.status(200).send(newTeam);
         }
-    }
-);
+    });
+    User.findById(req.body.userId, (err, user) => {
+        if (err) {
+            res.status(404).send("Something went wrong");
+        } else {
+            user.teams.push(newTeam);
+            user.save();
+
+        }
+    });
+});
 
 /**
  * Delete a team with teamId
  * @param id teamId
  *
  */
-router.delete('/team/delete/:teamId', async (req, res) => {
-    try {
-        const team = await Team.findById(req.params.id);
-
-        if (!team) {
-            return res.status(404).json({ msg: 'Team not found' });
+router.delete('/team/delete/:teamId', (req, res) => {
+    Team.findById(req.params.id, (err, team) => {
+        if (err) {
+            res.status(404).send("Something went wrong");
+        } else {
+            User.findById(team.userId, (err, user) => {
+                if (err) {
+                    console.log(err);
+                    res.status(404).send("Something went wrong");
+                } else {
+                    let i = user.teams.indexOf(team);
+                    user.teams.splice(i, 1);
+                    user.save();
+                }
+            });
         }
-        await Team.remove();
-
-        res.json({ msg: 'Team removed' });
-    } catch (err) {
-        console.error(err.message);
-
-        res.status(500).send('Server Error');
-    }
+    })
+    Team.findByIdAndDelete(req.params.id, (err) => {
+        if (err) {
+            console.log(err);
+            res.status(404).send("Delete failure");
+        } else {
+            res.status(200).send("Successfully delete");
+        }
+    });
 });
 
 /**
  * Get all InterestedUserList by postId
  * @param id userId
  */
-router.get('/team/getInterestedUserList/:postId', async ({params: {postId}}, res) => {
-    try {
-        const userList = await Post.find({post: postId}).populate('interested',['userName']);
-        res.json(userList);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
+router.get('/team/interestedUserList/:postId', (req,res) => {
+    Post.findById(req.params.id, (err, post) => {
+        if (err) {
+            console.log(err);
+            res.status(404).send("Something went wrong");
+        } else {
+            res.status(200).send(post.interested);
+        }
+    });
 });
 
 /**
  * Get a Team list by userID
  * @param userID
  */
-router.get('/team/getTeamList/:userId', async (req, res) => {
-    try {
-        const teams = await User.findById(req.params.id).populate('teams', ['teamName']);
-
-        if (!teams) {
-            return res.status(404).json({ msg: 'Team not found' })
+router.get('/team/getTeamList/:userId', (req, res) => {
+    User.findById(req.params.userId, (err, user) => {
+        if (err) {
+            console.log(err);
+            res.status(404).send("Get failure");
+        } else {
+            res.status(200).send(user.teams);
         }
-
-        return res.json(teams);
-    } catch (err) {
-        console.error(err.message);
-        return res.status(500).send('Server Error');
-    }
+    });
 });
 
 module.exports = router;

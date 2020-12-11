@@ -1,20 +1,35 @@
 import React, { Component } from 'react';
-import { Jumbotron, Button, Container, Row, Col } from 'react-bootstrap';
+import {Jumbotron, Button, Container, Row, Col, Tab, Image} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import WeGroupNavbar from "../containers/WeGroupNavbar";
+import CommentItem from "./CommentItem";
+import CommentForm from "./CommentForm";
+import PostCard from "./PostCard";
 
+const commentsArray = ['tab1', 'tab2', 'tab3', 'tab4'];
 class Post extends Component {
-    constructor(props) {
-        super(props);
-
-        this.postId = this.postId.bind(this);
-        this.currentPost = this.getPostByPostId(this.postId)
-    }
+    // constructor(props) {
+    //     super(props);
+    //
+    //     this.postId = this.postId.bind(this);
+    //     this.currentPost = this.getPostByPostId(this.postId)
+    // }
 //param postid, render a card showing post name, who posted it(show profile image), user name, posted date, and some comments, set a max length of xxx
+    renderComments() {
+        return commentsArray.map((index) => {
+            return (
+                <Tab.Pane key={index} eventKey={index}>
+                    <Row key={index} style={{margin: '1rem'}}>
+                        <CommentItem />
+                    </Row>
+                </Tab.Pane>
+            )
+        });
+    }
+
     render() {
         return (
             <div>
-                <Jumbotron fluid>
+                <Jumbotron fluid style={{width: '90%', margin: 'auto', minHeight: "150px"}}>
                     <h2>currentPost.name</h2>
                     <p>
                         <span>User.getUser(Post.userId).name</span>
@@ -42,16 +57,9 @@ class Post extends Component {
                         </span>
                     </p>
 
-                    <div>reply button,when clicked, redirect to comment form page</div>
-                    <Button variant="danger" href="/posts/<%= currentPost._id %>/comments/new">Reply</Button>
-                    need a comment form component
-                    <div>if user state != currentPost.userId
-                            if user.postInterested.contains(currentPost.postId)
-                            <Button variant="secondary">Interested</Button>
-                            when click again, uninterest this post, and change button to Interest
-                            else
-                            <Button variant="warning">Interest</Button>{' '}
-                            when click, interest this post, and change button to Interested
+                    <div style={{ display: "flex" }}>
+
+                            <Button variant="warning" style={{ marginLeft: "auto" }}>Interest</Button>
                     </div>
 
 
@@ -63,11 +71,10 @@ class Post extends Component {
                     </div>
                 </Jumbotron>
                 <div>
-                    comment field
-
-                    currentPost.comments.forEach(function(comment).orderByDate(decs, latest to eariest)
-
-                    need a commentItem component
+                    <CommentForm />
+                </div>
+                <div>
+                    {this.renderComments()}
                 </div>
             </div>
         )

@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import WeGroupNavbar from "../containers/WeGroupNavbar";
+import { Redirect } from "react-router";
+import { signup } from "../actions";
+import { connect } from "react-redux";
 
 class Signup extends Component {
     constructor(props) {
         super(props);
 
+        this.createUser = this.createUser.bind(this);
         this.usernameChanged = this.usernameChanged.bind(this);
         this.passwordChanged = this.passwordChanged.bind(this);
         this.state = {
@@ -15,6 +19,11 @@ class Signup extends Component {
                 password: '',
             }
         };
+    }
+
+    createUser(e) {
+        e.preventDefault();
+        this.props.signup(this.state.user);
     }
 
     usernameChanged(e) {
@@ -26,13 +35,17 @@ class Signup extends Component {
     }
 
     render() {
+        if (this.props.isAuthenticated) {
+            return <Redirect to="/activity" />;
+        }
+
         return (
             <div>
                 <WeGroupNavbar />
                 <Container fluid>
                     <Row>
                         <Col xs={{span: 4, offset: 4}}>
-                            <Form style={{padding: '5rem'}}>
+                            <Form onSubmit={this.createUser} style={{padding: '5rem'}}>
                                 <div style={{textAlign: 'center', marginTop: '1rem', marginBottom: '4rem'}}>
                                     <h1>WeGroup</h1>
                                 </div>
@@ -59,4 +72,12 @@ class Signup extends Component {
     }
 }
 
-export default Signup;
+const mapStateToProps = state => ({
+    isAuthenticated: state.isAuthenticated
+});
+const mapDispatchToProps
+    = dispatch => ({
+    signup: (user) => signup(dispatch, user)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

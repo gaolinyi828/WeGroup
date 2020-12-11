@@ -12,7 +12,7 @@ const posts = [{title: 'post 1'}, {title: 'post 2'}];
 class ActivityPage extends Component {
     renderTabs() {
         return tabs.map((tab, index) =>
-            <Nav.Item key={index}>
+            <Nav.Item key={index} style={{textAlign: 'center', width: '100%'}}>
                 <Nav.Link eventKey={index}>{tab}</Nav.Link>
             </Nav.Item>
         )
@@ -50,7 +50,7 @@ class ActivityPage extends Component {
                         <div>
                             <SideNav />
                         </div>
-                        <div class="main-page">
+                        <div className="main-page">
                             <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                                 <Row>
                                     <Col sm={2} style={{padding: 0, paddingLeft: '15px'}}>
