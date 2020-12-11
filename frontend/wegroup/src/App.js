@@ -11,6 +11,7 @@ import ActivityPage from "./containers/ActivityPage";
 import { Provider } from "react-redux";
 import store from './store';
 import PostDetailPage from "./containers/PostDetailPage";
+import PostCreate from "./containers/PostCreate";
 
 function App() {
   return (
@@ -46,6 +47,9 @@ function App() {
             </Route>
             <Route exact path="/sidenav">
               <SideNav />
+            </Route>
+            <Route exact path="/create_post">
+              <PostCreate/>
             </Route>
           </Switch>
         </Router>

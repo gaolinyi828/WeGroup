@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Jumbotron, Button, Container, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import {Button, Row, Col } from 'react-bootstrap';
 import '../styles/CommentItem.css';
 
 class CommentItem extends Component {
