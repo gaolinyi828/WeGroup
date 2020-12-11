@@ -6,6 +6,8 @@ import React from "react";
 import UserProfile from "./containers/UserProfile";
 import TabForm from "./components/TabForm";
 import SideNav from "./components/SideNav";
+import ActivityPage from "./containers/ActivityPage";
+import PostCreate from "./containers/PostCreate";
 
 function App() {
   return (
@@ -23,6 +25,9 @@ function App() {
         <Route exact path="/profile">
           <UserProfile />
         </Route>
+        <Route exact path="/activity">
+          <ActivityPage />
+        </Route>
         <Route exact path="/tab_form_search">
           <TabForm search={true}/>
         </Route>
@@ -32,7 +37,9 @@ function App() {
         <Route exact path="/sidenav">
           <SideNav />
         </Route>
-
+        <Route exact path="/create_post">
+          <PostCreate/>
+        </Route>
       </Switch>
     </Router>
   );
