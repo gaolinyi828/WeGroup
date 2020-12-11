@@ -27,10 +27,13 @@ const PostForm = () => {
     }
 
     const handleOnSubmit = () => {
+        console.log("inside handle submit");
         postService.createPost(formData).then(r => {
             if (r.status !== 200) {
+                console.log("status not 200");
                 alert("Something went wrong when creating post!");
             } else {
+                console.log("submit succeed: "+ r.status);
                 setFormData({
                     text: '',
                     tagId : '',
@@ -92,7 +95,7 @@ const PostForm = () => {
                                 onChange={handleChange}
                                 />
                             </Form.Group>
-                            <Button variant="primary" type="submit" style={{backgroundColor: '#eb2b2b', border: "none"}} onChange={handleOnSubmit}>
+                            <Button variant="primary" style={{backgroundColor: '#eb2b2b', border: "none"}} onClick={handleOnSubmit}>
                                 Submit
                             </Button>
                         </Form>
