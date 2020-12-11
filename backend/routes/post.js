@@ -109,7 +109,7 @@ router.delete('/post/delete/:postId', async(req, res)=> {
             try {
                 let newUser = await User.findOneAndUpdate({_id: post.userId},
                     {"$pull": {"postsCreatedByUser": post._id}});
-                let newTag = await Tag.findOneAndUpdate({_id: post.tag}, {"$pull": {"posts": post._id}});
+                let newTag = await Tag.findOneAndUpdate({_id: post.tagId}, {"$pull": {"posts": post._id}});
                 await Promise.all([newUser, newTag]);
                 res.status(200).send("Successfully delete");
             } catch (err){
@@ -144,7 +144,7 @@ router.get('/post/byUser/:id', (req, res) => {
  *         status 200 with posts
  */
 router.get('/post/byTag/:tag', (req, res) => {
-    Post.find({tag: req.params.tag}, (err, posts) => {
+    Post.find({tagId: req.params.tag}, (err, posts) => {
         if (err) {
             res.status(404).send("Something went wrong");
         } else {
