@@ -25,7 +25,9 @@ const PostSchema = new mongoose.Schema({
 
     // not sure if we need title, description, image, etc.
     text: String,
-    img: String
+    img: String,
+    title: String,
+    hasFormedGroup: Boolean
 });
 
 module.exports = mongoose.model("Post", PostSchema);
