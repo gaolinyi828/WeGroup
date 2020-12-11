@@ -1,4 +1,8 @@
 .postDetailPage {
     top: 3em;
-    position:relative;
+    position: relative;
+    margin-left: 130px;
+    width: calc(100% - 130px);
+    height: 91vh;
+    min-height: 100%;
 }
