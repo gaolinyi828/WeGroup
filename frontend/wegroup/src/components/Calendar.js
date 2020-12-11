@@ -1,9 +1,7 @@
-
-import React, {PureComponent} from "react";
+import React from "react";
 import moment from 'moment';
 import Dayz from "dayz/dist/dayz";
 import "./../styles/Calendar.css";
-import classNames from "classnames";
 import "dayz/dist/dayz.css";
 let COUNT = 1;
 
