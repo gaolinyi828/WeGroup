@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Post = require("../models/post");
 const User = require("../models/user");
+const Tag = require("../models/tag");
 const multer = require('multer');
 const uuidv4 = require('uuid/v4');
 
@@ -35,6 +36,7 @@ var upload = multer({
 */
 router.post('/post', upload.single('img'), (req, res) => {
     const url = req.protocol + '://' + req.get('host');
+
     // get data from request
     const userId = req.body.userId;
     const tagId = req.body.tagId;
@@ -54,19 +56,20 @@ router.post('/post', upload.single('img'), (req, res) => {
         img: req.file ? url + '/public/' + req.file.filename : null
     });
 
-    newPost.save((err, newPost) => {
+    newPost.save(async(err, newPost) => {
         if (err) {
             console.log(err);
             res.status(400).send("invalid input");
         } else {
-            console.log(userId);
-            User.findOneAndUpdate({_id:userId}, {"$push": {"postsCreatedByUser": newPost._id}}, (err, newUser) => {
-                if (err) {
-                    res.status(404).send("Something went wrong");
-                } else {
-                    res.status(200).send(newUser);
-                }
-            });
+            try {
+                let newUser = await User.findOneAndUpdate({_id: userId},
+                    {"$push": {"postsCreatedByUser": newPost._id}});
+                let newTag = await Tag.findOneAndUpdate({_id: tag}, {"$push": {"posts": newPost._id}});
+                await Promise.all([newUser, newTag]);
+                res.status(200).send(newPost);
+            } catch (err){
+                res.status(404).send("Something went wrong");
+            }
         }
     });
 });
@@ -98,20 +101,20 @@ router.put('/post/update/:postId',  (req, res) => {
  * @return status 404 if fail to delete
  *         status 200 if successfully delete
  */
-router.delete('/post/delete/:postId', (req, res)=> {
-    Post.findByIdAndDelete(req.params.postId, (err, post) => {
+router.delete('/post/delete/:postId', async(req, res)=> {
+    Post.findByIdAndDelete(req.params.postId, async(err, post) => {
         if (err) {
             res.status(404).send("Delete failure");
         } else {
-            console.log(post);
-            User.findOneAndUpdate({_id:post.userId}, {"$pull": {"postsCreatedByUser": post._id}}, (err, newUser) => {
-                if (err) {
-                    res.status(404).send("Something went wrong");
-                } else {
-                    res.status(200).send(newUser);
-                }
-            });
-            res.status(200).send("Successfully delete");
+            try {
+                let newUser = await User.findOneAndUpdate({_id: post.userId},
+                    {"$pull": {"postsCreatedByUser": post._id}});
+                let newTag = await Tag.findOneAndUpdate({_id: post.tag}, {"$pull": {"posts": post._id}});
+                await Promise.all([newUser, newTag]);
+                res.status(200).send("Successfully delete");
+            } catch (err){
+                res.status(404).send("Something went wrong");
+            }
         }
     });
 });
