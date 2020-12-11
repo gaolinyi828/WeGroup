@@ -32,7 +32,7 @@ const SideNav = () => {
                     </Nav.Link>
                 </Nav.Item>
                 <Nav.Item className={'item align-item-center'}>
-                    <Nav.Link style={{color: '#0a0a0a'}}>
+                    <Nav.Link href="/calendar" style={{color: '#0a0a0a'}} >
                         <Row>
                             <EventNoteIcon style={{fontSize: '3rem', color: 'white', margin: 'auto'}} />
                         </Row>
