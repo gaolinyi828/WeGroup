@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {ListGroup, Jumbotron, Button, Row, Tab, Image,} from 'react-bootstrap';
+import {ListGroup, Jumbotron, Button, Row, Tab, Image} from 'react-bootstrap';
 import CommentItem from "./CommentItem";
 import CommentForm from "./CommentForm";
 import moment from 'moment';
