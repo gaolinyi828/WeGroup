@@ -93,6 +93,16 @@ class PostService {
             method: 'GET'
         });
     }
+
+    updateInterestedList(interest) {
+        const data = new FormData();
+        if (interest.postId) data.append('postId', interest.postId);
+        if (interest.userId) data.append('userId', interest.userId);
+        return fetch(`${POST_API_URL}`, {
+            body: data,
+            method: 'PUT'
+        }).then(response => response.json());
+    }
 }
 
 export default PostService;
