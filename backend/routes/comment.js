@@ -12,8 +12,8 @@ const User = require("../models/user");
  * @return status 404 if something went wrong
  *         status 200 with comment objects
  */
-router.get('/', (req, res) => {
-    Comment.find({postId: req.body.postId}, (err, comments) => {
+router.get('/post/:postId/comment/', (req, res) => {
+    Comment.find({postId: req.params.postId}, (err, comments) => {
         if (err) {
             res.status(404).send("Something went wrong");
         } else {
@@ -31,7 +31,7 @@ router.get('/', (req, res) => {
  * @return status 400 if input is invalid
  *         status 201 with new comment object
  */
-router.post('/create', (req, res) => {
+router.post('/post/:postId/comment/create', (req, res) => {
     const comment = new Comment({
         user: req.body.userId,
         postId: req.body.postId,
@@ -70,7 +70,7 @@ router.post('/create', (req, res) => {
  * @return status 404 if something went wrong
  *         status 200 with comment object
  */
-router.put('/:id', (req, res) => {
+router.put('/post/:postId/comment/:id', (req, res) => {
     Comment.findByIdAndUpdate(req.params.id, {text: req.body.text}, (err, comment) => {
         if (err) {
             res.status(404).send("Something went wrong");
@@ -87,7 +87,7 @@ router.put('/:id', (req, res) => {
  * @return status 404 if fail to delete
  *         status 200 if successfully delete
  */
-router.delete('/:id', (req, res) => {
+router.delete('/post/:postId/comment/:id', (req, res) => {
     Comment.findById(req.params.id, (err, comment) => {
         if (err) {
             res.status(404).send("Something went wrong");
