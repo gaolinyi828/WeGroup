@@ -7,27 +7,22 @@ import { getAllCommentsByPostId } from "../actions";
 import UserService from "../services/UserService";
 import PostService from "../services/PostService";
 
-const temp = {
-    "comments": [],
-    "interested": [],
-    "_id": "5fd30411f63c0d0aa9305d4f",
-    "userId": "5fd302bbf63c0d0aa9305d4e",
-    "tagId": "5fcffe58c0c2f34fccf5e711",
-    "createdAt": "2020-12-11T05:30:57.091Z",
-    "text": "test",
-    "img": null,
-    "__v": 0
-}
+// const temp = {
+//     "comments": [],
+//     "interested": [],
+//     "_id": "5fd30411f63c0d0aa9305d4f",
+//     "userId": "5fd302bbf63c0d0aa9305d4e",
+//     "tagId": "5fcffe58c0c2f34fccf5e711",
+//     "createdAt": "2020-12-11T05:30:57.091Z",
+//     "text": "test",
+//     "img": null,
+//     "__v": 0
+// }
 class Post extends Component {
     constructor(props) {
         super(props);
 
-        this.currentPost = temp;
-        this.postId = temp._id;
-        // this.commentsArray = this.props.getAllCommentsByPostId(this.postId)
-
         this.userService = UserService.instance;
-        this.postService = PostService.instance;
 
         this.state = {
             user: {
@@ -99,7 +94,7 @@ class Post extends Component {
 //         }
 //     }
     renderInterestButton() {
-        if (!this.currentPost.interested.contains(this.state.user._id)) {
+        if (!this.props.post.interested.contains(this.state.user._id)) {
             return (
                 <div style={{ display: "flex" }}>
                     <Button variant="warning" style={{ marginLeft: "auto" }} onClick={() => this.interestPost()}>Interest</Button>
@@ -125,14 +120,14 @@ class Post extends Component {
         return (
             <div>
                 <Jumbotron fluid style={{width: '90%', margin: 'auto', minHeight: "150px"}}>
-                    <h1>{this.currentPost.title}suppose to have a post title here</h1>
+                    <h1>{this.props.post.title}</h1>
                     <p>
                         <span>User.getUser(Post.userId).name</span>
                         <span>&nbsp; &nbsp; &nbsp;</span>
-                        <span>{this.formatDate(this.currentPost.createdAt)}</span>
+                        <span>{this.formatDate(this.props.post.createdAt)}</span>
                     </p>
                     <p>
-                        {this.currentPost.text}
+                        {this.props.post.text}
                         {this.state.user.username}
                     </p>
                     <div>
@@ -148,7 +143,7 @@ class Post extends Component {
                     <p style={{marginTop:"20px"}}>
                         Tag:
                         <span>
-                            <Button variant="primary" disabled>{this.currentPost.tagId}</Button>
+                            <Button variant="primary" disabled>{this.props.post.tagId}</Button>
                         </span>
                     </p>
 
