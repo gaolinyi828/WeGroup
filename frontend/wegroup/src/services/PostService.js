@@ -15,13 +15,19 @@ class PostService {
     }
 
     createPost(post) {
+        const data = new FormData();
+        if (post.img) data.append('img', post.img);
+        if (post.title) data.append('title', post.title);
+        if (post.text) data.append('text', post.text);
+        if (post.tagId) data.append('tagId', post.tagId);
+        if (post.teamSize) data.append('teamSize', post.teamSize);
+        if (post.comments) data.append('comments', post.comments);
+        if (post.interested) data.append('interested', post.interested);
+        if (post.userId) data.append('userId', post.userId);
         return fetch(`${POST_API_URL}`, {
-            body: JSON.stringify(post),
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            body: data,
             method: 'POST'
-        });
+        }).then(response => response.json());
     }
 
     updatePost(postId, text) {
@@ -40,6 +46,15 @@ class PostService {
                 'Content-Type': 'application/json'
             },
             method: 'DELETE'
+        });
+    }
+
+    getPostById(postId) {
+        return fetch(`${POST_API_URL}/${postId}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'GET'
         });
     }
 

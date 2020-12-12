@@ -27,13 +27,17 @@ export const signup = (dispatch, user) => {
 
 export const login = (dispatch, user) => {
     userService.loginUser(user).then(res => res.json()).then(res => {
-        setAuthToken(res.token);
-        dispatch({
-            type: LOG_IN,
-            payload: res
-        });
+        if (res.error) {
+            alert(res.error);
+        } else {
+            setAuthToken(res.token);
+            dispatch({
+                type: LOG_IN,
+                payload: res
+            });
+            alert("Successfully logged in");
+        }
     });
-    alert("Successfully logged in");
 };
 
 export const logout = (dispatch) => {

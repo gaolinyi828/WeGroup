@@ -124,6 +124,23 @@ router.delete('/post/delete/:postId', async(req, res)=> {
 });
 
 /**
+ * Get post by a PostId
+ *
+ * @param post id to find
+ * @return status 404 if something went wrong
+ *         status 200 with post
+ */
+router.get('/post/:postId', (req, res) => {
+    Post.findById(req.params.postId, (err, post) => {
+        if (err) {
+            res.status(404).send("Something went wrong");
+        } else {
+            res.status(200).send(post);
+        }
+    });
+});
+
+/**
  * Get all post by the userId
  *
  * @param id userId to find posts
