@@ -29,10 +29,7 @@ class Post extends Component {
             this.setState({
                 user: {
                     _id: res._id,
-                    username: res.username,
-                    groups: res.teams,
-                    posts: res.postsCreatedByUser,
-                    interested_posts: res.postsInteracted
+                    username: res.username
                 }
             });
         })
@@ -67,7 +64,7 @@ class Post extends Component {
 
     interestPost(postId, userId) {
         const param = {postId: postId, userId: userId};
-        console.log(userId)
+        console.log(this.state.user._id)
         this.postService.addToInterestedList(param).then(r => {
             if (r.status !== 200) {
                 // console.log("status not 200");
@@ -156,7 +153,6 @@ class Post extends Component {
     //{this.currentPost.text}
     //{this.currentPost.tagId.department}
     render() {
-        console.log(this.state);
         return (
             <div>
                 <Jumbotron fluid style={{width: '90%', margin: 'auto', minHeight: "150px"}}>
