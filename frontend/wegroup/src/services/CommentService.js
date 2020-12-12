@@ -14,7 +14,7 @@ class CommentService {
         return this[_singleton]
     }
 
-    createComment(postId, comment) {
+    createComment(comment) {
         return fetch(`${POST_API_URL}/${postId}/comments/create`, {
             body: JSON.stringify(comment),
             headers: {
@@ -22,6 +22,14 @@ class CommentService {
             },
             method: 'POST'
         });
+        const data = new FormData();
+        if (comment.userId) data.append('user', comment.userId);
+        if (comment.postId) data.append('postId', comment.postId);
+        if (comment.text) data.append('text', commment.text);
+        return fetch(`${POST_API_URL}`, {
+            body: data,
+            method: 'POST'
+        }).then(response => response.json());
     }
 
     updateComment(postId, commentId, text) {

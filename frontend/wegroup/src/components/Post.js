@@ -6,6 +6,8 @@ import moment from 'moment';
 import { getAllCommentsByPostId } from "../actions";
 import UserService from "../services/UserService";
 import PostService from "../services/PostService";
+import CommentService from "../services/CommentService";
+import TagService from "../services/TagService";
 
 const temp = {
     "comments": [],
@@ -22,17 +24,28 @@ class Post extends Component {
     constructor(props) {
         super(props);
 
-        this.currentPost = temp;
-        this.postId = temp._id;
-        // this.commentsArray = this.props.getAllCommentsByPostId(this.postId)
 
+        // this.commentsArray = this.props.getAllCommentsByPostId(this.postId)
+        //this.posts = [];
         this.userService = UserService.instance;
         this.postService = PostService.instance;
+
+        this.tagService = TagService.instance;
+
+
+        //this.currentPost = this.posts[0];
+        this.postId = temp._id;
 
         this.state = {
             user: {
                 _id: '',
                 username: ''
+            },
+            posts: {
+                posts: []
+            },
+            tag:{
+
             }
         }
     //
@@ -51,7 +64,28 @@ class Post extends Component {
             });
             console.log("user Id inside profile: "+ res._id);
         })
+
+        this.postService.getAllPostsByTag("5fcffe58c0c2f34fccf5e711").then(res => res.json()).then(res => {
+            this.setState({
+                posts: {
+                    res
+                }
+            });
+            console.log(this.state.posts);
+        })
+
+        this.tagService.getTagByTagId("5fcffe58c0c2f34fccf5e711").then(res => res.json()).then(res => {
+            this.setState({
+                tag: {
+                    res
+                }
+            });
+            console.log(this.state.tag.res);
+        })
     }
+
+
+
 
     // interestPost() {
     //     const updatePostInterestList =  {
@@ -98,6 +132,7 @@ class Post extends Component {
 //             });
 //         }
 //     }
+
     renderInterestButton() {
         if (!this.currentPost.interested.contains(this.state.user._id)) {
             return (
@@ -118,21 +153,30 @@ class Post extends Component {
         return new moment(date).format("YYYY-MM-DD HH:mm:ss");
     }
 
+    formatTagName(tag) {
+        if (tag !== null && tag !== undefined) {
+            return tag.department+"-"+tag.courseNumber+"-"+tag.year+"-"+tag.semester;
+        }
+    }
+
     //post need a post title
     //tag need a getTagByTagId
     //post need a group formed property
+    //{this.currentPost.title}
+    //<span>{this.formatDate(this.state.posts.posts[0].createdAt)}</span>
+    //{this.currentPost.text}
+    //{this.currentPost.tagId.department}
     render() {
         return (
             <div>
                 <Jumbotron fluid style={{width: '90%', margin: 'auto', minHeight: "150px"}}>
-                    <h1>{this.currentPost.title}suppose to have a post title here</h1>
+                    <h1>suppose to have a post title here</h1>
                     <p>
                         <span>User.getUser(Post.userId).name</span>
                         <span>&nbsp; &nbsp; &nbsp;</span>
-                        <span>{this.formatDate(this.currentPost.createdAt)}</span>
+
                     </p>
                     <p>
-                        {this.currentPost.text}
                         {this.state.user.username}
                     </p>
                     <div>
@@ -148,7 +192,7 @@ class Post extends Component {
                     <p style={{marginTop:"20px"}}>
                         Tag:
                         <span>
-                            <Button variant="primary" disabled>{this.currentPost.tagId}</Button>
+                            <Button variant="primary" disabled>{this.formatTagName(this.state.tag.res)}</Button>
                         </span>
                     </p>
 
@@ -163,7 +207,7 @@ class Post extends Component {
                     </div>
                 </Jumbotron>
                 <div>
-                    <CommentForm />
+                    <CommentForm postId={this.state.posts[0]}/>
                 </div>
                 <div>
 

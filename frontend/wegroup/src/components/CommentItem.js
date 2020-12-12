@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
 import {Button, Row, Col } from 'react-bootstrap';
 import '../styles/CommentItem.css';
+import CommentService from "../services/CommentService";
 
 class CommentItem extends Component {
-    // constructor(props) {
-    //     super(props);
-    //
-    //     this.postId = this.postId.bind(this);
-    //     this.currentPost = this.getPostByPostId(this.postId)
-    // }
+    constructor(props) {
+        super(props);
+
+        this.postId = this.postId.bind(this);
+        this.currentPost = this.getPostByPostId(this.postId)
+        this.commentService = CommentService.instance;
+    }
+
+    editComment() {
+
+    }
+
+    deleteComment() {
+
+    }
 //param postid, render a card showing post name, who posted it(show profile image), user name, posted date, and some comments, set a max length of xxx
     render() {
         return (

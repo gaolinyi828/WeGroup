@@ -1,21 +1,51 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import CommentService from "../services/CommentService";
 
 class CommentForm extends Component {
-    // constructor(props) {
-    //     super(props);
-    //
-    //     this.postId = this.postId.bind(this);
-    //     this.currentPost = this.getPostByPostId(this.postId)
-    // }
-//param postid, render a card showing post name, who posted it(show profile image), user name, posted date, and some comments, set a max length of xxx
+    constructor(props) {
+        super(props);
+
+        this.post = this.props.post;
+        this.commentService = CommentService.instance;
+        this.state = {
+            user: {
+                _id: '',
+                username: ''
+            },
+            postId: '',
+            text:''
+        }
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const comment = new FormData(e.target);
+        if (this.state.user !== null && this.state.user !== undefined) {
+            this.commentService.createComment(this.postId, e.text).then(r => {
+                if (r.status !== 201) {
+                    console.log("status not 200");
+                    alert("Something went wrong when creating post!");
+                } else {
+                    // setFormData({
+                    //     user: '',
+                    //     postId: '',
+                    //     text : '',
+                    // })
+                }
+            })
+        }
+    }
+
+    handleChange
+
     render() {
         return (
-            <Form>
-                <h1 style={{display: 'flex', justifyContent: 'center'}}>Add Comment to currentPost.name</h1>
+            <Form onSubmit={this.handleSubmit()}>
+                <h1 style={{display: 'flex', justifyContent: 'center'}}>Add Comment to {this.post.title}</h1>
                 <div style={{width: '90%', margin: '30px auto'}}>
-                    <Form.Group controlId="formGroup.NameInput">
-                        <Form.Control as="textarea" rows={5} placeholder="Write something for this comment..."/>
+                    <Form.Group controlId="commentInput">
+                        <Form.Control as="textarea" name='comment' rows={5} placeholder="Write something for this comment..."/>
                     </Form.Group>
                     <Button variant="primary" type="submit">
                         Reply
