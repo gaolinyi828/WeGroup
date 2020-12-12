@@ -15,12 +15,11 @@ class CommentService {
     }
 
     createComment(comment) {
-        const data = new FormData();
-        if (comment.userId) data.append('user', comment.userId);
-        if (comment.postId) data.append('postId', comment.postId);
-        if (comment.text) data.append('text', comment.text);
-        return fetch(`${POST_API_URL}/${comment.postId}/comment/create`, {
-            body: data,
+        return fetch(`${POST_API_URL}/comment/create`, {
+            body: JSON.stringify(comment),
+            headers: {
+                'Content-Type': 'application/json'
+            },
             method: 'POST'
         });
     }
