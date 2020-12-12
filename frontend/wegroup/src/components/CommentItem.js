@@ -19,25 +19,25 @@ class CommentItem extends Component {
     deleteComment() {
 
     }
-    //{this.props.comment.createdAt}
-    //{this.props.comment.text}
+    //
+    //
 //param postid, render a card showing post name, who posted it(show profile image), user name, posted date, and some comments, set a max length of xxx
     render() {
-        console.log(this.props.post.comments[0])
+        console.log(this.props.comment)
         return (
             <div style={{width: '90%', margin: '30px auto'}}>
                 <Row style={{ display: "flex", minHeight: "150px" }}>
                     <Col sm={3} style={{ display: "flex", paddingRight: "0"}}>
                         <div className={'commentBorder'} style={{ display: "flex", width:"inherit", height:"inherit"}}>
                             <p className={'textPadding'}>
-                                userId, avatar image <br />
+                                {this.props.comment.user} <br />{this.props.comment.createdAt}
                             </p>
                         </div>
                     </Col>
                     <Col sm={9} style={{ display: "flex",paddingLeft:"0" }}>
                         <div className={'commentBorder'} style={{ display: "flex", width:"inherit", height:"inherit"}}>
                             <p className={'textPadding'}>
-
+                                {this.props.comment.text}
                             </p>
                             <div style={{ marginLeft: "auto", marginTop: "auto" }}>
                                 <Button

@@ -129,7 +129,7 @@ class Post extends Component {
 
     renderComments(post) {
         if (this.state.comments && this.state.comments.length) {
-            if (post.comments.length === 0) {
+            if (this.state.comments.length === 0) {
                 return (
                     <Tab.Pane>
                         <Row style={{margin: '1rem'}}>
@@ -138,11 +138,11 @@ class Post extends Component {
                     </Tab.Pane>
                 )
             } else {
-                return this.state.comments.map((index) => {
+                return this.state.comments.map((comment,index) => {
                     return (
                         <Tab.Pane key={index} eventKey={index}>
                             <Row key={index} style={{margin: '1rem'}}>
-                                <CommentItem comment={this.state.comments[index]}/>
+                                <CommentItem comment={comment}/>
                             </Row>
                         </Tab.Pane>
                     )
