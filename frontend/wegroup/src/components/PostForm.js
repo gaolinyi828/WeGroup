@@ -11,6 +11,7 @@ import TabForm from "./TabForm";
 
 const PostForm = () => {
     const [formData, setFormData] = useState({
+        img: null,
         text: '',
         tagId : '',
         userId: '',
@@ -47,11 +48,13 @@ const PostForm = () => {
                 alert("Something went wrong when creating post!");
             } else {
                 setFormData({
+                    img: null,
                     text: '',
                     tagId : '',
                 })
             }
         })
+        console.log("img:"+ formData.img);
     }
 
     const [allTags, setAllTags] = useState([]);
@@ -80,7 +83,14 @@ const PostForm = () => {
     const handleOnClickCreateTag = () => {
         setShowModal(true)
     }
+    const handleClose = () => setShowModal(false);
 
+    const handleOnSelectFile = (e) => {
+        setFileName(e.target.files[0].name);
+        setFormData({...formData, img: e.target.files[0]})
+    }
+
+    const [fileName, setFileName] = useState("Upload Design Image");
 
 
     return (
@@ -91,7 +101,12 @@ const PostForm = () => {
                         <Form style={{marginTop: '2rem', width: '44rem', padding: "3rem 5rem", backgroundColor: '#eeeeee' }}>
                             <Form.Group>
                             <Form.Label>Project Design</Form.Label>
-                                <Form.File custom data-browse="Browse" id="postImage" label="Upload Image"/>
+                                <Form.File custom id="postImage">
+                                    <Form.File.Input onChange={handleOnSelectFile}/>
+                                    <Form.File.Label data-browse={"Browse"}>
+                                        {fileName}
+                                    </Form.File.Label>
+                                </Form.File>
                             </Form.Group>
                             <Form.Group controlId="postDescription">
                                 <Form.Label>Project Description</Form.Label>
@@ -127,7 +142,9 @@ const PostForm = () => {
                         <TabForm search={false}/>
                     </Modal.Body>
                     <Modal.Footer>
-
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
                     </Modal.Footer>
                 </Modal>
             </Container>
