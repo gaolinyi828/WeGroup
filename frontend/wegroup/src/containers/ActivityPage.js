@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Nav, Tab, Container, Row, Col, Image} from 'react-bootstrap';
+import { Nav, Tab, Container, Row, Col, Image, Modal, Button, Form } from 'react-bootstrap';
 import SideNav from "../components/SideNav";
 import WeGroupNavbar from "./WeGroupNavbar";
 
@@ -13,9 +13,19 @@ class ActivityPage extends Component {
         this.tagService = TagService.instance;
 
         this.onSelect = this.onSelect.bind(this);
+        this.showSearch = this.showSearch.bind(this);
+        this.closeSearch = this.closeSearch.bind(this);
+        this.onSearchChanged = this.onSearchChanged.bind(this);
         this.state = {
             tags: [],
-            selected: 0
+            selected: 0,
+            show: false,
+            filter: {
+                department: '',
+                courseNumber: '',
+                year: '',
+                semester: ''
+            }
         }
     }
 
@@ -30,7 +40,14 @@ class ActivityPage extends Component {
     }
 
     renderTags() {
-        return this.state.tags.map((tag, index) =>
+        return this.state.tags.filter(tag => {
+            let res = true;
+            if (this.state.filter.year && tag.year && tag.year !== this.state.filter.year) res = false;
+            if (this.state.filter.semester && tag.semester && tag.semester !== this.state.filter.semester) res = false;
+            if (this.state.filter.department && tag.department && tag.department !== this.state.filter.department) res = false;
+            if (this.state.filter.courseNumber && tag.courseNumber && tag.courseNumber != this.state.filter.courseNumber) res = false;
+            return res;
+        }).map((tag, index) =>
             <Nav.Item key={index} style={{textAlign: 'center', width: '100%'}}>
                 <Nav.Link eventKey={index}>{`${tag.department} ${tag.courseNumber} ${tag.year} ${tag.semester}`}</Nav.Link>
             </Nav.Item>
@@ -61,10 +78,22 @@ class ActivityPage extends Component {
         });
     }
 
+    showSearch() {
+        this.setState({...this.state, show: true});
+    }
+
+    closeSearch() {
+        this.setState({...this.state, show: false});
+    }
+
+    onSearchChanged(e) {
+        this.setState({...this.state, filter: {...this.state.filter, [e.target.id]: e.target.value}});
+    }
+
     render() {
         return (
             <div>
-                <WeGroupNavbar />
+                <WeGroupNavbar showSearch={this.showSearch} />
                 <Container fluid style={{padding: 0}}>
                     <div>
                         <div>
@@ -87,6 +116,51 @@ class ActivityPage extends Component {
                             </Tab.Container>
                         </div>
                     </div>
+                    <Modal size="lg" show={this.state.show} onHide={this.closeSearch}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Search Tag</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form>
+                                <Form.Row>
+                                    <Form.Group className="search-form" controlId="department">
+                                        <Form.Label>Department: </Form.Label>
+                                        <Form.Control onChange={this.onSearchChanged} value={this.state.filter.department} as="select" custom>
+                                            <option value="" disabled={this.state.filter.department ? true : null} >Select Department</option>
+                                            <option>Computer Science</option>
+                                            <option>Information System</option>
+                                            <option>Electrical Engineering</option>
+                                        </Form.Control>
+                                    </Form.Group>
+                                    <Form.Group className="search-form" controlId="courseNumber">
+                                        <Form.Label>Course Number:</Form.Label>
+                                        <Form.Control onChange={this.onSearchChanged} value={this.state.filter.courseNumber} placeholder="5500" />
+                                    </Form.Group>
+                                </Form.Row>
+                                <Form.Row>
+                                    <Form.Group className="search-form" controlId="year">
+                                        <Form.Label>Year: </Form.Label>
+                                        <Form.Control onChange={this.onSearchChanged} value={this.state.filter.year} as="select" custom>
+                                            <option value="" disabled={this.state.filter.department ? true : null} >Select Year</option>
+                                            <option>2018</option>
+                                            <option>2019</option>
+                                            <option>2020</option>
+                                            <option>2021</option>
+                                        </Form.Control>
+                                    </Form.Group>
+                                    <Form.Group className="search-form" controlId="semester">
+                                        <Form.Label>Semester: </Form.Label>
+                                        <Form.Control onChange={this.onSearchChanged} value={this.state.filter.semester} as="select" custom>
+                                            <option value="" disabled={this.state.filter.department ? true : null} >Select Semester</option>
+                                            <option>Spring</option>
+                                            <option>Summer</option>
+                                            <option>Fall</option>
+                                        </Form.Control>
+                                    </Form.Group>
+                                </Form.Row>
+                            </Form>
+                        </Modal.Body>
+                    </Modal>
                 </Container>
             </div>
         )
