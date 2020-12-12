@@ -142,7 +142,7 @@ class Post extends Component {
                     return (
                         <Tab.Pane key={index} eventKey={index}>
                             <Row key={index} style={{margin: '1rem'}}>
-                                <CommentItem comment={comment}/>
+                                <CommentItem comment={comment} userId = {this.state.user._id}/>
                             </Row>
                         </Tab.Pane>
                     )

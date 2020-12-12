@@ -8,6 +8,7 @@ class CommentItem extends Component {
     constructor(props) {
         super(props);
         this.deleteComment = this.deleteComment.bind(this);
+        this.renderButtons = this.renderButtons.bind(this);
 
         // this.postId = this.postId.bind(this);
         // this.currentPost = this.getPostByPostId(this.postId)
@@ -39,10 +40,25 @@ class CommentItem extends Component {
             }
         })
     }
-    //
-    //
+
+    renderButtons(){
+        if(this.props.comment.userId === this.props.userId) {
+            return (
+                <div style={{ marginLeft: "auto", marginTop: "auto" }}>
+                    <Button
+                        variant="warning" href={`/post_detail/${this.props.comment.postId}/comment/${this.props.comment._id}`}>
+                        Edit
+                    </Button>
+                    <Button variant="danger" onClick={this.deleteComment}>
+                        Delete
+                    </Button>
+                </div>
+            )
+        }
+    }
 //param postid, render a card showing post name, who posted it(show profile image), user name, posted date, and some comments, set a max length of xxx
     render() {
+        console.log(this.props.comment)
         return (
             <div style={{width: '90%', margin: '30px auto'}}>
                 <Row style={{ display: "flex", minHeight: "150px" }}>
@@ -58,15 +74,7 @@ class CommentItem extends Component {
                             <p className={'textPadding'}>
                                 {this.props.comment.text}
                             </p>
-                            <div style={{ marginLeft: "auto", marginTop: "auto" }}>
-                                <Button
-                                    variant="warning" href={`/post_detail/${this.props.comment.postId}/comment/${this.props.comment._id}`}>
-                                    Edit
-                                </Button>
-                                <Button variant="danger" onClick={this.deleteComment}>
-                                    Delete
-                                </Button>
-                            </div>
+                            {this.renderButtons()}
                         </div>
                     </Col>
                 </Row>
