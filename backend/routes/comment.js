@@ -33,7 +33,7 @@ router.get('/post/:postId/comment/', (req, res) => {
  */
 router.post('/post/:postId/comment/create', (req, res) => {
     const comment = new Comment({
-        user: req.body.userId,
+        userId: req.body.userId,
         postId: req.body.postId,
         text: req.body.text,
     });
