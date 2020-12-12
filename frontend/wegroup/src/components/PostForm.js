@@ -1,13 +1,17 @@
-import  {Form, Row, Col, Button} from "react-bootstrap";
+import  {Form, Row, Col, Button, Modal} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import React, {useEffect, useState} from "react";
 import Select from "react-select";
 import TagService from "../services/TagService";
 import PostService from "../services/PostService";
 import UserService from "../services/UserService";
+import {IconButton} from "@material-ui/core";
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import TabForm from "./TabForm";
 
 const PostForm = () => {
     const [formData, setFormData] = useState({
+        img: null,
         text: '',
         tagId : '',
         userId: '',
@@ -38,15 +42,18 @@ const PostForm = () => {
 
 
     const handleOnSubmit = () => {
-        postService.createPost(formData).then(r => {
+        postService.createPost(formData)
+            .then(r => {
             if (r.status !== 200) {
-                // console.log("status not 200");
                 alert("Something went wrong when creating post!");
             } else {
                 setFormData({
+                    img: null,
                     text: '',
                     tagId : '',
                 })
+                setFileName("Upload Design Image");
+                alert("Post Succeed!");
             }
         })
     }
@@ -57,11 +64,6 @@ const PostForm = () => {
         fetchUser();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
-    const selectOptions = [
-        {value: 'CS5500-FALL-2020', label: 'CS5500-FALL-2020'},
-        {value: 'CS5610-FALL-2020', label: 'CS5610-FALL-2020'},
-        {value: 'CS5800-FALL-2020', label: 'CS5800-FALL-2020'}
-        ]
     const [selectedTag, setTag] = useState(null);
 
     const handleChange = (newValue: any, actionMeta: 'select-option') => {
@@ -73,6 +75,19 @@ const PostForm = () => {
         setFormData({...formData, [e.target.name]: e.target.value})
     }
 
+    const [showModal, setShowModal] = useState(false);
+    const handleOnClickCreateTag = () => {
+        setShowModal(true)
+    }
+    const handleClose = () => setShowModal(false);
+
+    const handleOnSelectFile = (e) => {
+        setFileName(e.target.files[0].name);
+        setFormData({...formData, img: e.target.files[0]})
+    }
+
+    const [fileName, setFileName] = useState("Upload Design Image");
+
 
     return (
         <div>
@@ -82,7 +97,12 @@ const PostForm = () => {
                         <Form style={{marginTop: '2rem', width: '44rem', padding: "3rem 5rem", backgroundColor: '#eeeeee' }}>
                             <Form.Group>
                             <Form.Label>Project Design</Form.Label>
-                                <Form.File custom data-browse="Browse" id="postImage" label="Upload Image"/>
+                                <Form.File custom id="postImage">
+                                    <Form.File.Input onChange={handleOnSelectFile}/>
+                                    <Form.File.Label data-browse={"Browse"}>
+                                        {fileName}
+                                    </Form.File.Label>
+                                </Form.File>
                             </Form.Group>
                             <Form.Group controlId="postDescription">
                                 <Form.Label>Project Description</Form.Label>
@@ -92,7 +112,6 @@ const PostForm = () => {
                                 <Form.Label>Tags</Form.Label>
                                 <Select
                                 className="basic-single"
-                                defaultValue={selectOptions[0]}
                                 isDisabled={false}
                                 isLoading={false}
                                 isClearable={true}
@@ -103,6 +122,9 @@ const PostForm = () => {
                                 value={selectedTag}
                                 onChange={handleChange}
                                 />
+                                <IconButton style={{fontSize: "1rem",padding: "12px 5px"}} onClick={handleOnClickCreateTag}>
+                                    <AddCircleOutlineIcon style={{marginRight: "0.5rem", marginLeft: "0"}}/>create new tag
+                                </IconButton>
                             </Form.Group>
                             <Button variant="primary" style={{backgroundColor: '#eb2b2b', border: "none"}} onClick={handleOnSubmit}>
                                 Submit
@@ -110,6 +132,16 @@ const PostForm = () => {
                         </Form>
                     </Col>
                 </Row>
+                <Modal show={showModal}>
+                    <Modal.Body>
+                        <TabForm search={false}/>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </Container>
         </div>
     )
