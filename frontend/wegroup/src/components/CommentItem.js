@@ -10,23 +10,9 @@ class CommentItem extends Component {
         this.deleteComment = this.deleteComment.bind(this);
         this.renderButtons = this.renderButtons.bind(this);
 
-        // this.postId = this.postId.bind(this);
-        // this.currentPost = this.getPostByPostId(this.postId)
+
         this.commentService = CommentService.instance;
     }
-
-    // editComment(event) {
-    //     event.preventDefault();
-    //     this.commentService.deleteComment(this.props.comment.postId, this.props.comment._id).then(r => {
-    //         if (r.status !== 200) {
-    //             alert("Something went wrong when deleting comment!");
-    //         } else {
-    //             alert("Comment deleted");
-    //             const url = "/post_detail/" + this.props.comment.postId
-    //             this.props.history.push(url)
-    //         }
-    //     })
-    // }
 
     deleteComment(event) {
         event.preventDefault();
@@ -56,9 +42,8 @@ class CommentItem extends Component {
             )
         }
     }
-//param postid, render a card showing post name, who posted it(show profile image), user name, posted date, and some comments, set a max length of xxx
+
     render() {
-        console.log(this.props.comment)
         return (
             <div style={{width: '90%', margin: '30px auto'}}>
                 <Row style={{ display: "flex", minHeight: "150px" }}>

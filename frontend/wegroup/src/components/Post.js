@@ -56,12 +56,15 @@ class Post extends Component {
         });
 
         this.commentService.getAllCommentsByPostId(newProps.post._id).then(res => res.json()).then(res => {
-            console.log(res)
             this.setState({
                 ...this.state,
                 comments: res
             });
         })
+    }
+
+    formatDate(date) {
+        return new moment(date).format("YYYY-MM-DD HH:mm:ss");
     }
 
     renderInterestList(post) {
@@ -80,6 +83,12 @@ class Post extends Component {
                     <span style={{fontStyle: "italic"}}>No one has interested this post yet</span>
                 )
             }
+        }
+    }
+
+    formatTagName(tag) {
+        if (tag !== null && tag !== undefined) {
+            return tag.department+"-"+tag.courseNumber+"-"+tag.year+"-"+tag.semester;
         }
     }
 
@@ -104,7 +113,7 @@ class Post extends Component {
     interestPost() {
         this.postService.addToInterestedList(this.props.post._id, this.state.user._id).then(r => {
             if (r.status !== 200) {
-                alert("Something went wrong when creating post!");
+                alert("Something went wrong when interest post!");
             } else {
                 // setFormData({
                 //     text: '',
@@ -117,7 +126,7 @@ class Post extends Component {
     uninterestPost() {
         this.postService.deleteFromInterestedList(this.props.post._id, this.state.user._id).then(r => {
             if (r.status !== 200) {
-                alert("Something went wrong when creating post!");
+                alert("Something went wrong when uninterest post!");
             } else {
                 // setFormData({
                 //     text: '',
@@ -125,6 +134,12 @@ class Post extends Component {
                 // })
             }
         })
+    }
+
+    replyComment() {
+        if(this.state.user &&this.state.user._id && this.props.post._id) {
+            return (<CommentForm post={this.props.post} userId={this.state.user._id}/>);
+        }
     }
 
     renderComments(post) {
@@ -151,29 +166,6 @@ class Post extends Component {
         }
     }
 
-    replyComment() {
-        if(this.state.user &&this.state.user._id && this.props.post._id) {
-            return (<CommentForm postId={this.props.post._id} userId={this.state.user._id}/>);
-        }
-    }
-
-    formatDate(date) {
-        return new moment(date).format("YYYY-MM-DD HH:mm:ss");
-    }
-
-    formatTagName(tag) {
-        if (tag !== null && tag !== undefined) {
-            return tag.department+"-"+tag.courseNumber+"-"+tag.year+"-"+tag.semester;
-        }
-    }
-
-    //post need a post title
-    //tag need a getTagByTagId
-    //post need a group formed property
-    //{this.currentPost.title}
-    //
-    //{this.currentPost.text}
-    //{this.currentPost.tagId.department}
     render() {
         return (
             <div>

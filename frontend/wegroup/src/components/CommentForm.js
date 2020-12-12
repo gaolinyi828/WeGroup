@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import CommentService from "../services/CommentService";
+import { withRouter } from "react-router-dom";
 
 class CommentForm extends Component {
     constructor(props) {
@@ -17,24 +18,25 @@ class CommentForm extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-        this.setState({...this.state, userId: newProps.userId, postId: newProps.postId})
+        this.setState({...this.state, userId: newProps.userId, post: newProps.post})
     }
 
     handleChange(event) {
         this.setState({...this.state, text: event.target.value});
-        console.log(this.state.text)
     }
 
     handleSubmit(event) {
         event.preventDefault();
         this.commentService.createComment(this.state).then(r => {
             if (r.status !== 201) {
-                console.log("status not 201");
                 alert("Something went wrong when creating post!");
             } else {
                 this.setState({
                     text : ''
                 })
+                alert("Comment added");
+                const url = "/post_detail/" + this.props.post._id
+                this.props.history.push(url)
             }
         })
     }
@@ -42,7 +44,7 @@ class CommentForm extends Component {
     render() {
         return (
             <Form onSubmit={this.handleSubmit}>
-                <h3 style={{display: 'flex', justifyContent: 'center'}}>Add Comment to {this.props.postId}</h3>
+                <h3 style={{display: 'flex', justifyContent: 'center'}}>Add Comment to {this.props.post.title}</h3>
                 <div style={{width: '90%', margin: 'auto'}}>
                     <Form.Group controlId="commentInput">
                         <Form.Control as="textarea" onChange={this.handleChange} value={this.state.text} rows={5} placeholder="Write something for this comment..."/>
@@ -56,4 +58,4 @@ class CommentForm extends Component {
     }
 }
 
-export default CommentForm;
+export default withRouter(CommentForm);

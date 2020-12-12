@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import {Button, Container, Form} from 'react-bootstrap';
 import SideNav from "../components/SideNav";
 import WeGroupNavbar from "./WeGroupNavbar";
-import Post from "../components/Post"
 import { withRouter } from "react-router";
-
 import "../styles/PostDetailPage.css"
 import PostService from "../services/PostService";
 import CommentService from "../services/CommentService";
@@ -27,12 +25,10 @@ class EditCommentPage extends Component {
 
     handleChange(event) {
         this.setState({...this.state, text: event.target.value});
-        console.log(this.state.text)
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log(this.state)
         const format = {text: this.state.text}
         this.commentService.updateComment(this.state.post._id, this.state.comment._id, format).then(r => {
             if (r.status !== 200) {
@@ -44,6 +40,7 @@ class EditCommentPage extends Component {
             }
         })
     }
+
     componentDidMount() {
         this.postService.getPostById(this.props.match.params.postid).then(res => res.json()).then(res => {
             this.setState({post: res});
@@ -54,8 +51,6 @@ class EditCommentPage extends Component {
         })
     }
 
-
-    //{this.props.postId}
     render() {
         return (
             <div>

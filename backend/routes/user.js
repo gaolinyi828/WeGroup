@@ -113,4 +113,21 @@ router.put('/update', async (req, res) => {
     });
 })
 
+/**
+ * Get the user with user id
+ *
+ * @param user id
+ * @return status 404 if fail to get
+ *         status 200 if successfully get
+ */
+router.get('/:id', (req, res) => {
+    User.findById(req.params.id, (err, user) => {
+        if (err) {
+            res.status(404).send("Get failure");
+        } else {
+            res.status(200).send(user);
+        }
+    });
+})
+
 module.exports = router;
