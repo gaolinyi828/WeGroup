@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Image, Nav, Navbar, Form} from "react-bootstrap";
+import { Image, Nav, Navbar } from "react-bootstrap";
 import { logout } from "../actions";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
