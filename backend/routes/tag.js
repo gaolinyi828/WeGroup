@@ -69,4 +69,21 @@ router.get('/search', (req, res) => {
     });
 });
 
+/**
+ * Get a tag with tag id
+ *
+ * @param tag id
+ * @return status 404 if fail to get
+ *         status 200 if successfully get
+ */
+router.get('/:id', (req, res) => {
+    Tag.findById(req.params.id, (err, tag) => {
+        if (err) {
+            res.status(404).send("Get failure");
+        } else {
+            res.status(200).send(tag);
+        }
+    });
+})
+
 module.exports = router;

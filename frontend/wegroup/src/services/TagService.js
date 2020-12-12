@@ -25,7 +25,7 @@ class TagService {
     }
 
     getAllTags() {
-        return fetch(`${TAG_API_URL}/`, {
+        return fetch(`${TAG_API_URL}`, {
             headers: {
                 'Content-Type': 'application/json'
             },

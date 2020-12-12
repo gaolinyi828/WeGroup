@@ -82,7 +82,6 @@ router.post('/post', upload.single('img'), (req, res) => {
  * Update a post's text
  *
  * @param postId  post to update
- * @param user_id user who buy the item
  * @return status 404 if something went wrong
  *         status 200 with item objects
  */
@@ -96,6 +95,52 @@ router.put('/post/updateText/:postId',  (req, res) => {
             res.status(200).send(post);
         }
     });
+});
+
+/**
+ * Add to a post's interested list
+ *
+ * @param postId  post to update
+ * @param user_id user to add into the interest list
+ * @return status 404 if something went wrong
+ *         status 200 with item objects
+ */
+
+router.put('/post/addInterested/:postId/:userId',  (req, res) => {
+    var postId = req.params.postId;
+    var userId = req.params.userId;
+
+    Post.findOneAndUpdate({_id: postId},
+        {"$push": {"interested": userId}}, (err, post) => {
+            if (err) {
+                res.status(404).send("Something went wrong");
+            } else {
+                res.status(200).send(post);
+            }
+        });
+});
+
+/**
+ * Delete the specific user in post's interested list
+ *
+ * @param postId  post to update
+ * @param user_id user to delete from the interest list
+ * @return status 404 if something went wrong
+ *         status 200 with item objects
+ */
+
+router.delete('/post/deleteInterested/:postId/:userId',  (req, res) => {
+    var postId = req.params.postId;
+    var userId = req.params.userId;
+
+    Post.findOneAndUpdate({_id: postId},
+        {"$pull": {"interested": userId}}, (err, post) => {
+            if (err) {
+                res.status(404).send("Something went wrong");
+            } else {
+                res.status(200).send(post);
+            }
+        });
 });
 
 /**
@@ -119,6 +164,23 @@ router.delete('/post/delete/:postId', async(req, res)=> {
             } catch (err){
                 res.status(404).send("Something went wrong");
             }
+        }
+    });
+});
+
+/**
+ * Get post by a PostId
+ *
+ * @param post id to find
+ * @return status 404 if something went wrong
+ *         status 200 with post
+ */
+router.get('/post/:postId', (req, res) => {
+    Post.findById(req.params.postId, (err, post) => {
+        if (err) {
+            res.status(404).send("Something went wrong");
+        } else {
+            res.status(200).send(post);
         }
     });
 });
