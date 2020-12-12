@@ -13,7 +13,6 @@ class Post extends Component {
     constructor(props) {
         super(props);
 
-        console.log(this.props.post)
         this.userService = UserService.instance;
         this.tagService = TagService.instance;
         this.postService = PostService.instance;
@@ -25,7 +24,6 @@ class Post extends Component {
             },
             tag:''
         }
-    //
     }
 
     componentDidMount() {
@@ -39,21 +37,17 @@ class Post extends Component {
                     interested_posts: res.postsInteracted
                 }
             });
-            //console.log("user Id inside profile: "+ res._id);
-        })
-        console.log(this.props.post.tagId)
-        this.tagService.getTagByTagId(this.props.post.tagId).then(res => res.json()).then(res => {
-            this.setState({
-                tag: res
-            });
-            console.log(this.state.tag);
         })
     }
 
+    componentWillReceiveProps(newProps) {
+        this.tagService.getTagByTagId(newProps.post.tagId).then(res => res.json()).then(res => {
+            this.setState({
+                tag: res
+            });
+        })
+    }
 
-
-
-//
     renderInterestList() {
         if (this.props.post.interested !== null && this.props.post.interested !== undefined) {
             if (this.props.post.interested.length >0) {
@@ -73,7 +67,6 @@ class Post extends Component {
         }
     }
 
-
     interestPost() {
         this.postService.updateInterestedList(this.currentPost._id, this.state.user._id).then(r => {
             if (r.status !== 200) {
@@ -89,7 +82,6 @@ class Post extends Component {
     }
 
     uninterestPost() {
-
     }
 //param postid, render a card showing post name, who posted it(show profile image), user name, posted date, and some comments, set a max length of xxx
 //     renderComments() {
@@ -146,6 +138,7 @@ class Post extends Component {
     //{this.currentPost.text}
     //{this.currentPost.tagId.department}
     render() {
+        console.log(this.props.post)
         return (
             <div>
                 <Jumbotron fluid style={{width: '90%', margin: 'auto', minHeight: "150px"}}>
