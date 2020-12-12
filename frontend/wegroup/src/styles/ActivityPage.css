@@ -24,3 +24,7 @@
 .nav-pills .nav-link:hover {
     background-color: #f3f2f1;
 }
+
+.search-form {
+    margin: 10px;
+}
