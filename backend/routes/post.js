@@ -131,7 +131,7 @@ router.put('/post/addInterested/:postId/:userId',  (req, res) => {
  *         status 200 with item objects
  */
 
-router.delete('/post/deleteInterested/:postId/:userId',  (req, res) => {
+router.put('/post/deleteInterested/:postId/:userId',  (req, res) => {
     var postId = req.params.postId;
     var userId = req.params.userId;
 
