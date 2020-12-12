@@ -31,7 +31,7 @@ router.get('/post/:postId/comment/', (req, res) => {
  * @return status 400 if input is invalid
  *         status 201 with new comment object
  */
-router.post('/post/:postId/comment/create', (req, res) => {
+router.post('/post/comment/create', (req, res) => {
     const comment = new Comment({
         userId: req.body.userId,
         postId: req.body.postId,
@@ -41,21 +41,20 @@ router.post('/post/:postId/comment/create', (req, res) => {
         if (err) {
             res.status(400).send("invalid input");
         } else {
-            res.status(201).send(comment);
-        }
-    });
-    Post.findById(req.body.postId, (err, post) => {
-        if (err) {
-            res.status(404).send("Something went wrong");
-        } else {
-            post.comments.push(comment);
-            post.save();
-            User.findById(req.body.userId, (err, user) => {
+            Post.findById(req.body.postId, (err, post) => {
                 if (err) {
                     res.status(404).send("Something went wrong");
                 } else {
-                    user.postsInteracted.push(post);
-                    user.save();
+                    post.comments.push(comment);
+                    post.save();
+                    User.findById(req.body.userId, (err, user) => {
+                        if (err) {
+                            res.status(404).send("Something went wrong");
+                        } else {
+                            user.postsInteracted.push(post);
+                            user.save();
+                        }
+                    });
                 }
             });
         }
