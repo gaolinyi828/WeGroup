@@ -4,6 +4,8 @@ import WeGroupNavbar from "./WeGroupNavbar";
 import GroupTab from "../components/GroupTab";
 import PostTab from "../components/PostTab";
 import InterestedTab from "../components/InterestedTab";
+import { connect } from "react-redux";
+import { Redirect } from "react-router";
 import "../styles/UserProfile.css"
 
 import UserService from "../services/UserService";
@@ -37,7 +39,10 @@ class UserProfile extends Component {
     }
 
     render() {
-        console.log(this.state);
+        if (!this.props.token) {
+            return <Redirect to="/login" />
+        }
+
         return (
             <div>
                 <WeGroupNavbar />
@@ -74,4 +79,8 @@ class UserProfile extends Component {
     }
 }
 
-export default UserProfile;
+const mapStateToProps = state => ({
+    token: state.token
+});
+
+export default connect(mapStateToProps)(UserProfile);

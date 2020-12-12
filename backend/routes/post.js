@@ -6,6 +6,8 @@ const Tag = require("../models/tag");
 const multer = require('multer');
 const uuidv4 = require('uuid/v4');
 
+const DIR = './public/';
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, DIR);

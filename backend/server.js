@@ -15,7 +15,7 @@ app.use(cors());
 app.use('/public', express.static('public'));
 
 const uri = "mongodb+srv://new_user:55001234@cluster0.tpbel.mongodb.net/WeGroup?retryWrites=true&w=majority";
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 app.use('/tags', tagRoutes);
 app.use('/teams', teamRoutes);
