@@ -42,9 +42,9 @@ const PostForm = () => {
 
 
     const handleOnSubmit = () => {
-        postService.createPost(formData).then(r => {
+        postService.createPost(formData)
+            .then(r => {
             if (r.status !== 200) {
-                // console.log("status not 200");
                 alert("Something went wrong when creating post!");
             } else {
                 setFormData({
@@ -52,9 +52,10 @@ const PostForm = () => {
                     text: '',
                     tagId : '',
                 })
+                setFileName("Upload Design Image");
+                alert("Post Succeed!");
             }
         })
-        console.log("img:"+ formData.img);
     }
 
     const [allTags, setAllTags] = useState([]);
@@ -63,11 +64,6 @@ const PostForm = () => {
         fetchUser();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
-    const selectOptions = [
-        {value: 'CS5500-FALL-2020', label: 'CS5500-FALL-2020'},
-        {value: 'CS5610-FALL-2020', label: 'CS5610-FALL-2020'},
-        {value: 'CS5800-FALL-2020', label: 'CS5800-FALL-2020'}
-        ]
     const [selectedTag, setTag] = useState(null);
 
     const handleChange = (newValue: any, actionMeta: 'select-option') => {
@@ -116,7 +112,6 @@ const PostForm = () => {
                                 <Form.Label>Tags</Form.Label>
                                 <Select
                                 className="basic-single"
-                                defaultValue={selectOptions[0]}
                                 isDisabled={false}
                                 isLoading={false}
                                 isClearable={true}

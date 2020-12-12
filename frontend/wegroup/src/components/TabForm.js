@@ -25,10 +25,6 @@ const TabForm = (props) => {
             }
 
         });
-        console.log("on submit form data: "+ formData.department);
-        console.log("on submit form data: "+ formData.courseNumber);
-        console.log("on submit form data: "+ formData.semester);
-        console.log("on submit form data: "+ formData.year);
     }
 
     const handleOnChange = (e) => {
