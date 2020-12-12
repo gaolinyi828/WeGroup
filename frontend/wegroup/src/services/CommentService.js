@@ -22,7 +22,7 @@ class CommentService {
         return fetch(`${POST_API_URL}/${comment.postId}/comments/create`, {
             body: data,
             method: 'POST'
-        }).then(response => response.json());
+        });
     }
 
     updateComment(postId, commentId, text) {

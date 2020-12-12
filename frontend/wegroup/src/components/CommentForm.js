@@ -8,30 +8,25 @@ class CommentForm extends Component {
 
         this.commentService = CommentService.instance;
         this.state = {
-            user: {
-                _id: '',
-                username: ''
-            },
-            postId: '',
-            text:''
+            userId: this.props.userId,
+            postId: this.props.postId,
+            text: ''
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
-        this.setState({text: event.target.value});
+        this.setState({...this.state, text: event.target.value});
+        console.log(this.state.text)
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        const comment = new FormData(event.target.value);
-        comment.append('user', this.state.user._id);
-        comment.append('postId', this.props.post._id);
-        if (this.state.user !== null && this.state.user !== undefined) {
-            this.commentService.createComment(comment).then(r => {
+        console.log(this.state)
+            this.commentService.createComment(this.state).then(r => {
                 if (r.status !== 201) {
-                    console.log("status not 200");
+                    console.log("status not 201");
                     alert("Something went wrong when creating post!");
                 } else {
                     // setFormData({
@@ -41,13 +36,12 @@ class CommentForm extends Component {
                     // })
                 }
             })
-        }
     }
 
     render() {
         return (
             <Form onSubmit={this.handleSubmit}>
-                <h3 style={{display: 'flex', justifyContent: 'center'}}>Add Comment to {this.props.post.title}</h3>
+                <h3 style={{display: 'flex', justifyContent: 'center'}}>Add Comment to {this.props.postId}</h3>
                 <div style={{width: '90%', margin: 'auto'}}>
                     <Form.Group controlId="commentInput">
                         <Form.Control as="textarea" onChange={this.handleChange} value={this.state.text} rows={5} placeholder="Write something for this comment..."/>

@@ -17,12 +17,15 @@ class Post extends Component {
 
         this.interestPost = this.interestPost.bind(this);
         this.uninterestPost = this.uninterestPost.bind(this);
+        this.replyComment = this.replyComment.bind(this);
+
         this.state = {
             user: {
                 _id: '',
                 username: ''
             },
-            tag:''
+            tag:'',
+            reload: false
         }
     }
 
@@ -48,6 +51,10 @@ class Post extends Component {
                 tag: res
             });
         });
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.state != nextState;
     }
 
     renderInterestList(post) {
@@ -133,11 +140,15 @@ class Post extends Component {
             } else {
                 return (
                     <div style={{ display: "flex" }}>
-                        <Button variant="warning" style={{ marginLeft: "auto" }} onClick={this.uninterestPost}>Interested</Button>
+                        <Button variant="dark" style={{ marginLeft: "auto" }} onClick={this.uninterestPost}>Interested</Button>
                     </div>
                 )
             }
         }
+    }
+
+    replyComment() {
+        return (<CommentForm postId={this.props.post._id} userId = {this.state.user._id}/>);
     }
 
     formatDate(date) {
@@ -159,6 +170,7 @@ class Post extends Component {
     //{this.currentPost.tagId.department}
     render() {
         console.log(this.state);
+        console.log(this.props.post)
         return (
             <div>
                 <Jumbotron fluid style={{width: '90%', margin: 'auto', minHeight: "150px"}}>
@@ -192,7 +204,7 @@ class Post extends Component {
                     </div>
                 </Jumbotron>
                 <div>
-                    <CommentForm post={this.props.post}/>
+                    {this.replyComment()}
                 </div>
                 <div>
                     {this.renderComments(this.props.post)}

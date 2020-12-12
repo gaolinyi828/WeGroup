@@ -108,7 +108,7 @@ class PostService {
             headers: {
                 'Content-Type': 'application/json'
             },
-            method: 'PUT'
+            method: 'DELETE'
         });
     }
 }
