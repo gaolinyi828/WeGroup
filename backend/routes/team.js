@@ -8,8 +8,7 @@ const Team = require('../models/team');
  * Create a team
  *
  */
-router.post(
-    '/team', (req, res) => {
+router.post('/', (req, res) => {
     const newTeam = new Team({
         userId: req.body.userId,
         members: req.body.interested,
@@ -42,7 +41,7 @@ router.post(
  * @param id teamId
  *
  */
-router.delete('/team/delete/:teamId', (req, res) => {
+router.delete('/delete/:teamId', (req, res) => {
     Team.findById(req.params.id, (err, team) => {
         if (err) {
             res.status(404).send("Something went wrong");
@@ -73,7 +72,7 @@ router.delete('/team/delete/:teamId', (req, res) => {
  * Get all InterestedUserList by postId
  * @param id userId
  */
-router.get('/team/interestedUserList/:postId', (req,res) => {
+router.get('/interestedUserList/:postId', (req,res) => {
     Post.findById(req.params.id, (err, post) => {
         if (err) {
             console.log(err);
@@ -88,13 +87,31 @@ router.get('/team/interestedUserList/:postId', (req,res) => {
  * Get a Team list by userID
  * @param userID
  */
-router.get('/team/getTeamList/:userId', (req, res) => {
+router.get('/getTeamList/:userId', (req, res) => {
     User.findById(req.params.userId, (err, user) => {
         if (err) {
             console.log(err);
             res.status(404).send("Get failure");
         } else {
             res.status(200).send(user.teams);
+        }
+    });
+});
+
+/**
+ * Get a list of teams with given ids
+ *
+ * @param id team ids
+ * @return status 404 if fail to get
+ *         status 200 if successfully get
+ */
+router.post('/ids', (req, res)=> {
+    let ids = [...new Set(req.body)];
+    Post.find({'_id': { $in: ids}}, (err, items) => {
+        if (err) {
+            res.status(404).send("Get failure");
+        } else {
+            res.status(200).send(items);
         }
     });
 });

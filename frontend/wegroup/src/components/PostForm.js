@@ -12,6 +12,7 @@ import TabForm from "./TabForm";
 const PostForm = () => {
     const [formData, setFormData] = useState({
         img: null,
+        title: '',
         text: '',
         tagId : '',
         userId: '',
@@ -49,6 +50,7 @@ const PostForm = () => {
             } else {
                 setFormData({
                     img: null,
+                    title: '',
                     text: '',
                     tagId : '',
                 })
@@ -104,8 +106,12 @@ const PostForm = () => {
                                     </Form.File.Label>
                                 </Form.File>
                             </Form.Group>
+                            <Form.Group controlId="postTitle">
+                                <Form.Label>Post Title</Form.Label>
+                                <Form.Control name="title" onChange={handleOnChange} value={formData.title}/>
+                            </Form.Group>
                             <Form.Group controlId="postDescription">
-                                <Form.Label>Project Description</Form.Label>
+                                <Form.Label>Post Description</Form.Label>
                                 <Form.Control as="textarea" rows={3} name="text" onChange={handleOnChange} value={formData.text}/>
                             </Form.Group>
                             <Form.Group controlId="Tags">
