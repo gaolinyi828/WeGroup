@@ -81,6 +81,23 @@ router.put('/post/:postId/comment/:id', (req, res) => {
 })
 
 /**
+ * Get comment by a CommentId
+ *
+ * @param comment id to find
+ * @return status 404 if something went wrong
+ *         status 200 with post
+ */
+router.get('/post/:postId/comment/:id', (req, res) => {
+    Comment.findById(req.params.id, (err, comment) => {
+        if (err) {
+            res.status(404).send("Something went wrong");
+        } else {
+            res.status(200).send(comment);
+        }
+    });
+});
+
+/**
  * Delete a comment with given id
  *
  * @param id comment id to delete

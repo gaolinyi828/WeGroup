@@ -26,11 +26,13 @@ class CommentService {
     }
 
     updateComment(postId, commentId, text) {
+        const data = new FormData();
+        data.append('text', text);
         return fetch(`${POST_API_URL}/${postId}/comment/${commentId}`, {
             body: JSON.stringify(text),
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            // headers: {
+            //     'Content-Type': 'application/json'
+            // },
             method: 'PUT'
         });
     }
@@ -46,6 +48,15 @@ class CommentService {
 
     getAllCommentsByPostId(postId) {
         return fetch(`${POST_API_URL}/${postId}/comment/`, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'GET'
+        });
+    }
+
+    getCommentById(postId,commentId) {
+        return fetch(`${POST_API_URL}/${postId}/comment/${commentId}`, {
             headers: {
                 'Content-Type': 'application/json'
             },

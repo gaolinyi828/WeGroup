@@ -20,7 +20,7 @@ class EditCommentPage extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
             post: {},
-            comments: [],
+            comment:'',
             text:''
         }
     }
@@ -33,14 +33,14 @@ class EditCommentPage extends Component {
     handleSubmit(event) {
         event.preventDefault();
         console.log(this.state)
-        this.commentService.updateComment(this.state).then(r => {
-            if (r.status !== 201) {
-                console.log("status not 201");
+        const format = {text: this.state.text}
+        this.commentService.updateComment(this.state.post._id, this.state.comment._id, format).then(r => {
+            if (r.status !== 200) {
                 alert("Something went wrong when creating post!");
             } else {
-                this.setState({
-                    text : ''
-                })
+                alert("Comment edited");
+                const url = "/post_detail/" + this.state.post._id
+                this.props.history.push(url)
             }
         })
     }
@@ -49,14 +49,14 @@ class EditCommentPage extends Component {
             this.setState({post: res});
         })
 
-        this.commentService.getAllCommentsByPostId(this.props.match.params.postid).then(res => res.json()).then(res => {
-            this.setState({comments: res});
+        this.commentService.getCommentById(this.props.match.params.postid, this.props.match.params.id).then(res => res.json()).then(res => {
+            this.setState({comment: res});
         })
     }
 
+
     //{this.props.postId}
     render() {
-        console.log((this.state))
         return (
             <div>
                 <WeGroupNavbar />
@@ -67,7 +67,7 @@ class EditCommentPage extends Component {
                         </div>
                         <div className={'postDetailPage'}>
                             <Form onSubmit={this.handleSubmit}>
-                                <h3 style={{display: 'flex', justifyContent: 'center'}}>Edit Comment of </h3>
+                                <h3 style={{display: 'flex', justifyContent: 'center'}}>Edit Your Comment in {this.state.post.title}</h3>
                                 <div style={{width: '90%', margin: 'auto'}}>
                                     <Form.Group controlId="commentInput">
                                         <Form.Control as="textarea" onChange={this.handleChange} value={this.state.text} rows={5} placeholder="Write something for this comment..."/>
