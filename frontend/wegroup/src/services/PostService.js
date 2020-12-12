@@ -94,13 +94,23 @@ class PostService {
         });
     }
 
-    updateInterestedList(interest) {
+    addToInterestedList(interest) {
         const data = new FormData();
         if (interest.postId) data.append('postId', interest.postId);
         if (interest.userId) data.append('userId', interest.userId);
-        return fetch(`${POST_API_URL}`, {
+        return fetch(`${POST_API_URL}/addInterested/${interest.postId}/${interest.userId}`, {
             body: data,
             method: 'PUT'
+        }).then(response => response.json());
+    }
+
+    deleteFromInterestedList(interest) {
+        const data = new FormData();
+        if (interest.postId) data.append('postId', interest.postId);
+        if (interest.userId) data.append('userId', interest.userId);
+        return fetch(`${POST_API_URL}/deleteInterested/${interest.postId}/${interest.userId}`, {
+            body: data,
+            method: 'DELETE'
         }).then(response => response.json());
     }
 }

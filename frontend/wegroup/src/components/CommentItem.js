@@ -27,14 +27,14 @@ class CommentItem extends Component {
                     <Col sm={3} style={{ display: "flex", paddingRight: "0"}}>
                         <div className={'commentBorder'} style={{ display: "flex", width:"inherit", height:"inherit"}}>
                             <p className={'textPadding'}>
-                                userId, avatar image <br /> timestamp
+                                userId, avatar image <br /> {this.props.post.comments[this.props.index].createdAt}
                             </p>
                         </div>
                     </Col>
                     <Col sm={9} style={{ display: "flex",paddingLeft:"0" }}>
                         <div className={'commentBorder'} style={{ display: "flex", width:"inherit", height:"inherit"}}>
                             <p className={'textPadding'}>
-                                comment.text
+                                {this.props.post.comments[this.props.index].text}
                             </p>
                             <div style={{ marginLeft: "auto", marginTop: "auto" }}>
                                 <Button
