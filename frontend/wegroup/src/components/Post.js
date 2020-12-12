@@ -153,7 +153,7 @@ class Post extends Component {
 
     replyComment() {
         if(this.state.user &&this.state.user._id && this.props.post._id) {
-            return (<CommentForm postId={this.props.post._id} userId = {this.state.user._id}/>);
+            return (<CommentForm postId={this.props.post._id} userId={this.state.user._id}/>);
         }
     }
 
