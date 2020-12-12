@@ -1,10 +1,13 @@
-import  {Form, Row, Col, Button} from "react-bootstrap";
+import  {Form, Row, Col, Button, Modal} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import React, {useEffect, useState} from "react";
 import Select from "react-select";
 import TagService from "../services/TagService";
 import PostService from "../services/PostService";
 import UserService from "../services/UserService";
+import {IconButton} from "@material-ui/core";
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import TabForm from "./TabForm";
 
 const PostForm = () => {
     const [formData, setFormData] = useState({
@@ -73,6 +76,12 @@ const PostForm = () => {
         setFormData({...formData, [e.target.name]: e.target.value})
     }
 
+    const [showModal, setShowModal] = useState(false);
+    const handleOnClickCreateTag = () => {
+        setShowModal(true)
+    }
+
+
 
     return (
         <div>
@@ -103,6 +112,9 @@ const PostForm = () => {
                                 value={selectedTag}
                                 onChange={handleChange}
                                 />
+                                <IconButton style={{fontSize: "1rem",padding: "12px 5px"}} onClick={handleOnClickCreateTag}>
+                                    <AddCircleOutlineIcon style={{marginRight: "0.5rem", marginLeft: "0"}}/>create new tag
+                                </IconButton>
                             </Form.Group>
                             <Button variant="primary" style={{backgroundColor: '#eb2b2b', border: "none"}} onClick={handleOnSubmit}>
                                 Submit
@@ -110,6 +122,14 @@ const PostForm = () => {
                         </Form>
                     </Col>
                 </Row>
+                <Modal show={showModal}>
+                    <Modal.Body>
+                        <TabForm search={false}/>
+                    </Modal.Body>
+                    <Modal.Footer>
+
+                    </Modal.Footer>
+                </Modal>
             </Container>
         </div>
     )
