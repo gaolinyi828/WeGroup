@@ -15,6 +15,8 @@ class Post extends Component {
         this.tagService = TagService.instance;
         this.postService = PostService.instance;
 
+        this.interestPost = this.interestPost.bind(this);
+        this.uninterestPost = this.uninterestPost.bind(this);
         this.state = {
             user: {
                 _id: '',
@@ -27,6 +29,7 @@ class Post extends Component {
     componentDidMount() {
         this.userService.loadUser().then(res => res.json()).then(res => {
             this.setState({
+                ...this.state,
                 user: {
                     _id: res._id,
                     username: res.username,
@@ -41,9 +44,10 @@ class Post extends Component {
     componentWillReceiveProps(newProps) {
         this.tagService.getTagByTagId(newProps.post.tagId).then(res => res.json()).then(res => {
             this.setState({
+                ...this.state,
                 tag: res
             });
-        })
+        });
     }
 
     renderInterestList(post) {
@@ -65,10 +69,8 @@ class Post extends Component {
         }
     }
 
-    interestPost(postId, userId) {
-        const param = {postId: postId, userId: userId};
-        console.log(userId)
-        this.postService.addToInterestedList(param).then(r => {
+    interestPost() {
+        this.postService.addToInterestedList(this.props.post._id, this.state.user._id).then(r => {
             if (r.status !== 200) {
                 // console.log("status not 200");
                 alert("Something went wrong when creating post!");
@@ -81,9 +83,9 @@ class Post extends Component {
         })
     }
 
-    uninterestPost(postId, userId) {
-        const param = {postId: postId, userId: userId};
-        this.postService.deleteFromInterestedList(param).then(r => {
+    uninterestPost() {
+        this.postService.deleteFromInterestedList(this.props.post._id, this.state.user._id).then(r => {
+            console.log(r);
             if (r.status !== 200) {
                 // console.log("status not 200");
                 alert("Something went wrong when creating post!");
@@ -120,18 +122,18 @@ class Post extends Component {
         }
     }
 
-    renderInterestButton(post) {
-        if (post.interested) {
-            if (!post.interested.includes(this.state.user._id)) {
+    renderInterestButton() {
+        if (this.props.post.interested) {
+            if (!this.props.post.interested.includes(this.state.user._id)) {
                 return (
                     <div style={{ display: "flex" }}>
-                        <Button variant="warning" style={{ marginLeft: "auto" }} onClick={() => this.interestPost(post._id, this.state.user._id)}>Interest</Button>
+                        <Button variant="warning" style={{ marginLeft: "auto" }} onClick={this.interestPost}>Interest</Button>
                     </div>
                 )
             } else {
                 return (
                     <div style={{ display: "flex" }}>
-                        <Button variant="warning" disabled style={{ marginLeft: "auto" }} onClick={() => this.uninterestPost(post._id, this.state.user._id)}>Interested</Button>
+                        <Button variant="warning" style={{ marginLeft: "auto" }} onClick={this.uninterestPost}>Interested</Button>
                     </div>
                 )
             }
@@ -181,7 +183,7 @@ class Post extends Component {
                             <Button variant="primary" disabled>{this.formatTagName(this.state.tag)}</Button>
                         </span>
                     </p>
-                    {this.renderInterestButton(this.props.post)}
+                    {this.renderInterestButton()}
                     <div>if user state == currentPost.userId && currentPost.interested.size > 0)
                         <Button variant="success">Form Group</Button>
                         need have a form group component
