@@ -8,12 +8,16 @@ class CommentForm extends Component {
 
         this.commentService = CommentService.instance;
         this.state = {
-            userId: this.props.userId,
-            postId: this.props.postId,
+            userId: '',
+            postId: '',
             text: ''
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentWillReceiveProps(newProps) {
+        this.setState({...this.state, userId: newProps.userId, postId: newProps.postId})
     }
 
     handleChange(event) {
@@ -23,7 +27,6 @@ class CommentForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log(this.state)
         this.commentService.createComment(this.state).then(r => {
             if (r.status !== 201) {
                 console.log("status not 201");
