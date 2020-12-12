@@ -42,6 +42,15 @@ class TagService {
             method: 'GET'
         })
     }
+
+    getTagByTagId(tagId) {
+        return fetch(`${TAG_API_URL}/${tagId}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'GET'
+        })
+    }
 }
 
 export default TagService;

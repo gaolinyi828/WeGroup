@@ -93,6 +93,24 @@ class PostService {
             method: 'GET'
         });
     }
+
+    addToInterestedList(postId, userId) {
+        return fetch(`${POST_API_URL}/addInterested/${postId}/${userId}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'PUT'
+        });
+    }
+
+    deleteFromInterestedList(postId, userId) {
+        return fetch(`${POST_API_URL}/deleteInterested/${postId}/${userId}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'DELETE'
+        });
+    }
 }
 
 export default PostService;
