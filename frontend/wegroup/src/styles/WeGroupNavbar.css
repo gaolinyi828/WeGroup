@@ -1,4 +1,4 @@
-.topnav {
+.top-nav {
     height: 3em;
     vertical-align: top;
     position: fixed;
@@ -7,3 +7,5 @@
     z-index:100;
     width: 100%;
 }
+
+button:focus {outline:0;}
