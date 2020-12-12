@@ -29,11 +29,9 @@ class CommentForm extends Component {
                     console.log("status not 201");
                     alert("Something went wrong when creating post!");
                 } else {
-                    // setFormData({
-                    //     user: '',
-                    //     postId: '',
-                    //     text : '',
-                    // })
+                    this.setState({
+                        text : ''
+                    })
                 }
             })
     }

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import {ListGroup, Jumbotron, Button, Row, Tab, Image, Nav,} from 'react-bootstrap';
+import {ListGroup, Jumbotron, Button, Row, Tab, Image,} from 'react-bootstrap';
 import CommentItem from "./CommentItem";
 import CommentForm from "./CommentForm";
 import moment from 'moment';
 import UserService from "../services/UserService";
 import PostService from "../services/PostService";
 import TagService from "../services/TagService";
+import CommentService from "../services/CommentService";
 
 class Post extends Component {
     constructor(props) {
@@ -14,6 +15,7 @@ class Post extends Component {
         this.userService = UserService.instance;
         this.tagService = TagService.instance;
         this.postService = PostService.instance;
+        this.commentService = CommentService.instance;
 
         this.interestPost = this.interestPost.bind(this);
         this.uninterestPost = this.uninterestPost.bind(this);
@@ -25,6 +27,7 @@ class Post extends Component {
                 username: ''
             },
             tag:'',
+            comments: [],
             reload: false
         }
     }
@@ -51,10 +54,14 @@ class Post extends Component {
                 tag: res
             });
         });
-    }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return this.state != nextState;
+        this.commentService.getAllCommentsByPostId(newProps.post._id).then(res => res.json()).then(res => {
+            console.log(res)
+            this.setState({
+                ...this.state,
+                comments: res
+            });
+        })
     }
 
     renderInterestList(post) {
@@ -72,59 +79,6 @@ class Post extends Component {
                 return (
                     <span style={{fontStyle: "italic"}}>No one has interested this post yet</span>
                 )
-            }
-        }
-    }
-
-    interestPost() {
-        this.postService.addToInterestedList(this.props.post._id, this.state.user._id).then(r => {
-            if (r.status !== 200) {
-                // console.log("status not 200");
-                alert("Something went wrong when creating post!");
-            } else {
-                // setFormData({
-                //     text: '',
-                //     tagId : '',
-                // })
-            }
-        })
-    }
-
-    uninterestPost() {
-        this.postService.deleteFromInterestedList(this.props.post._id, this.state.user._id).then(r => {
-            console.log(r);
-            if (r.status !== 200) {
-                // console.log("status not 200");
-                alert("Something went wrong when creating post!");
-            } else {
-                // setFormData({
-                //     text: '',
-                //     tagId : '',
-                // })
-            }
-        })
-    }
-
-    renderComments(post) {
-        if (post.comments) {
-            if (post.comments.length == 0) {
-                return (
-                    <Tab.Pane>
-                        <Row style={{margin: '1rem'}}>
-                            There is no comment yet.
-                        </Row>
-                    </Tab.Pane>
-                )
-            } else {
-                return post.comments.map((index) => {
-                    return (
-                        <Tab.Pane key={index} eventKey={index}>
-                            <Row key={index} style={{margin: '1rem'}}>
-                                <CommentItem post={post} index={index}/>
-                            </Row>
-                        </Tab.Pane>
-                    )
-                });
             }
         }
     }
@@ -147,8 +101,60 @@ class Post extends Component {
         }
     }
 
+    interestPost() {
+        this.postService.addToInterestedList(this.props.post._id, this.state.user._id).then(r => {
+            if (r.status !== 200) {
+                alert("Something went wrong when creating post!");
+            } else {
+                // setFormData({
+                //     text: '',
+                //     tagId : '',
+                // })
+            }
+        })
+    }
+
+    uninterestPost() {
+        this.postService.deleteFromInterestedList(this.props.post._id, this.state.user._id).then(r => {
+            if (r.status !== 200) {
+                alert("Something went wrong when creating post!");
+            } else {
+                // setFormData({
+                //     text: '',
+                //     tagId : '',
+                // })
+            }
+        })
+    }
+
+    renderComments(post) {
+        if (this.state.comments && this.state.comments.length) {
+            if (post.comments.length === 0) {
+                return (
+                    <Tab.Pane>
+                        <Row style={{margin: '1rem'}}>
+                            There is no comment yet.
+                        </Row>
+                    </Tab.Pane>
+                )
+            } else {
+                return this.state.comments.map((index) => {
+                    return (
+                        <Tab.Pane key={index} eventKey={index}>
+                            <Row key={index} style={{margin: '1rem'}}>
+                                <CommentItem comment={this.state.comments[index]}/>
+                            </Row>
+                        </Tab.Pane>
+                    )
+                });
+            }
+        }
+    }
+
     replyComment() {
-        return (<CommentForm postId={this.props.post._id} userId = {this.state.user._id}/>);
+        if(this.state.user &&this.state.user._id && this.props.post._id) {
+            return (<CommentForm postId={this.props.post._id} userId = {this.state.user._id}/>);
+        }
     }
 
     formatDate(date) {
@@ -169,8 +175,6 @@ class Post extends Component {
     //{this.currentPost.text}
     //{this.currentPost.tagId.department}
     render() {
-        console.log(this.state);
-        console.log(this.props.post)
         return (
             <div>
                 <Jumbotron fluid style={{width: '90%', margin: 'auto', minHeight: "150px"}}>
@@ -207,7 +211,7 @@ class Post extends Component {
                     {this.replyComment()}
                 </div>
                 <div>
-                    {this.renderComments(this.props.post)}
+                    {this.renderComments()}
                 </div>
             </div>
         )

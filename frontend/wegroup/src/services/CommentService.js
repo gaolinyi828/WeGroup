@@ -19,14 +19,14 @@ class CommentService {
         if (comment.userId) data.append('user', comment.userId);
         if (comment.postId) data.append('postId', comment.postId);
         if (comment.text) data.append('text', comment.text);
-        return fetch(`${POST_API_URL}/${comment.postId}/comments/create`, {
+        return fetch(`${POST_API_URL}/${comment.postId}/comment/create`, {
             body: data,
             method: 'POST'
         });
     }
 
     updateComment(postId, commentId, text) {
-        return fetch(`${POST_API_URL}/${postId}/comments/${commentId}`, {
+        return fetch(`${POST_API_URL}/${postId}/comment/${commentId}`, {
             body: JSON.stringify(text),
             headers: {
                 'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ class CommentService {
     }
 
     deleteComment(postId, commentId) {
-        return fetch(`${POST_API_URL}/${postId}/comments/${commentId}`, {
+        return fetch(`${POST_API_URL}/${postId}/comment/${commentId}`, {
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -45,7 +45,7 @@ class CommentService {
     }
 
     getAllCommentsByPostId(postId) {
-        return fetch(`${POST_API_URL}/${postId}/comments`, {
+        return fetch(`${POST_API_URL}/${postId}/comment/`, {
             headers: {
                 'Content-Type': 'application/json'
             },
