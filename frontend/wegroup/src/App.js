@@ -13,6 +13,7 @@ import { Provider } from "react-redux";
 import store from './store';
 import PostDetailPage from "./containers/PostDetailPage";
 import PostCreate from "./containers/PostCreate";
+import EditCommentPage from "./containers/EditCommentPage";
 
 function App() {
   return (
@@ -39,6 +40,9 @@ function App() {
             </Route>
             <Route exact path="/post_detail/:id">
               <PostDetailPage />
+            </Route>
+            <Route exact path="/post_detail/:postid/comment/:id">
+              <EditCommentPage />
             </Route>
             <Route exact path="/tab_form_search">
               <TabForm search={true}/>

@@ -24,16 +24,16 @@ class CommentForm extends Component {
     handleSubmit(event) {
         event.preventDefault();
         console.log(this.state)
-            this.commentService.createComment(this.state).then(r => {
-                if (r.status !== 201) {
-                    console.log("status not 201");
-                    alert("Something went wrong when creating post!");
-                } else {
-                    this.setState({
-                        text : ''
-                    })
-                }
-            })
+        this.commentService.createComment(this.state).then(r => {
+            if (r.status !== 201) {
+                console.log("status not 201");
+                alert("Something went wrong when creating post!");
+            } else {
+                this.setState({
+                    text : ''
+                })
+            }
+        })
     }
 
     render() {
