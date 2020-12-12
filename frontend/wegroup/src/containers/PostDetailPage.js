@@ -3,12 +3,28 @@ import {Container} from 'react-bootstrap';
 import SideNav from "../components/SideNav";
 import WeGroupNavbar from "./WeGroupNavbar";
 import Post from "../components/Post"
-import "../styles/PostDetailPage.css"
+import { withRouter } from "react-router";
 
-// const tabs = ['tab1', 'tab2', 'tab3', 'tab4'];
-// const posts = [{title: 'post 1'}, {title: 'post 2'}];
+import "../styles/PostDetailPage.css"
+import PostService from "../services/PostService";
+
 
 class PostDetailPage extends Component {
+    constructor(props) {
+        super(props);
+        this.postService = PostService.instance;
+
+        this.state = {
+            post: {}
+        }
+    }
+
+    componentDidMount() {
+         this.postService.getPostById(this.props.match.params.id).then(res => res.json()).then(res => {
+            this.setState({post: res});
+        })
+    }
+
     render() {
         return (
             <div>
@@ -20,7 +36,7 @@ class PostDetailPage extends Component {
                         </div>
                         <div className={'postDetailPage'}>
                             <div>
-                                <Post />
+                                <Post post={this.state.post} />
                             </div>
                         </div>
                     </div>
@@ -30,4 +46,4 @@ class PostDetailPage extends Component {
     }
 }
 
-export default PostDetailPage;
+export default withRouter(PostDetailPage);

@@ -37,7 +37,7 @@ function App() {
             <Route exact path="/activity">
               <ActivityPage />
             </Route>
-            <Route exact path="/post_detail">
+            <Route exact path="/post_detail/:id">
               <PostDetailPage />
             </Route>
             <Route exact path="/tab_form_search">
