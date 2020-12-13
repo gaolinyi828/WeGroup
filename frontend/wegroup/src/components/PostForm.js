@@ -15,6 +15,7 @@ const PostForm = () => {
         text: '',
         tagId : '',
         userId: '',
+        title: '',
     })
     const tagService = TagService.instance;
     const postService = PostService.instance;
@@ -42,6 +43,7 @@ const PostForm = () => {
 
 
     const handleOnSubmit = () => {
+        console.log(formData.title);
         postService.createPost(formData)
             .then(r => {
             if (r.status !== 200) {
@@ -51,6 +53,7 @@ const PostForm = () => {
                     img: null,
                     text: '',
                     tagId : '',
+                    title:'',
                 })
                 setFileName("Upload Design Image");
                 alert("Post Succeed!");
@@ -95,6 +98,10 @@ const PostForm = () => {
                 <Row>
                     <Col xs={{span: 4, offset: 2}}>
                         <Form style={{marginTop: '2rem', width: '44rem', padding: "3rem 5rem", backgroundColor: '#eeeeee' }}>
+                            <Form.Group controlId="postTitle">
+                                <Form.Label>Title</Form.Label>
+                                <Form.Control as="textarea" rows={1} name="title" onChange={handleOnChange} value={formData.title}/>
+                            </Form.Group>
                             <Form.Group>
                             <Form.Label>Project Design</Form.Label>
                                 <Form.File custom id="postImage">
