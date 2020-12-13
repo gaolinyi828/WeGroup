@@ -26,16 +26,6 @@ router.post(
             res.status(200).send(newTeam);
         }
     });
-
-    // User.findById(req.body.userId, (err, user) => {
-    //     if (err) {
-    //         res.status(404).send("Something went wrong");
-    //     } else {
-    //         user.teams.push(newTeam);
-    //         user.save();
-    //
-    //     }
-    // });
     newTeam.members.forEach(element => {
         User.findById(element, (err, user) => {
             if (err) {
