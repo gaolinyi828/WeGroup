@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {Button, Row, Col } from 'react-bootstrap';
 import '../styles/CommentItem.css';
 import CommentService from "../services/CommentService";
+import UserService from "../services/UserService";
 import { withRouter } from "react-router-dom";
+import moment from "moment";
 
 class CommentItem extends Component {
     constructor(props) {
@@ -12,7 +14,21 @@ class CommentItem extends Component {
 
 
         this.commentService = CommentService.instance;
+        this.userService = UserService.instance;
+        this.state = {
+            commentOwner: ''
+        }
     }
+
+    componentWillReceiveProps(newProps) {
+        this.userService.getUserByUserId(newProps.comment.userId).then(res => res.json()).then(res => {
+            this.setState({
+                ...this.state,
+                commentOwner: res.username
+            });
+        })
+    }
+
 
     deleteComment(event) {
         event.preventDefault();
@@ -43,14 +59,18 @@ class CommentItem extends Component {
         }
     }
 
+    formatDate(date) {
+        return new moment(date).format("YYYY-MM-DD HH:mm:ss");
+    }
+
     render() {
         return (
-            <div style={{width: '90%', margin: '30px auto'}}>
+            <div style={{width: '90%', margin: '10px auto 10px auto'}}>
                 <Row style={{ display: "flex", minHeight: "150px" }}>
                     <Col sm={3} style={{ display: "flex", paddingRight: "0"}}>
                         <div className={'commentBorder'} style={{ display: "flex", width:"inherit", height:"inherit"}}>
                             <p className={'textPadding'}>
-                                {this.props.comment.userId} <br />{this.props.comment.createdAt}
+                                {this.state.commentOwner} <br />{this.formatDate(this.props.comment.createdAt)}
                             </p>
                         </div>
                     </Col>

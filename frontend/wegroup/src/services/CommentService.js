@@ -14,6 +14,12 @@ class CommentService {
         return this[_singleton]
     }
 
+    /**
+     * Add a new comment to database
+     *
+     * @param comment, contains userId,postId and text
+     * @return fetch result
+     */
     createComment(comment) {
         return fetch(`${POST_API_URL}/comment/create`, {
             body: JSON.stringify(comment),
@@ -24,6 +30,14 @@ class CommentService {
         });
     }
 
+    /**
+     * Edit comment
+     *
+     * @param postId postId that comment belongs to
+     * @param commentId comment id to edit
+     * @param text comment's content
+     * @return fetch result
+     */
     updateComment(postId, commentId, text) {
         return fetch(`${POST_API_URL}/${postId}/comment/${commentId}`, {
             body: JSON.stringify(text),
@@ -34,6 +48,13 @@ class CommentService {
         });
     }
 
+    /**
+     * Delete a comment with given id
+     *
+     * @param postId postId that comment belongs to
+     * @param commentId comment id to delete
+     * @return fetch result
+     */
     deleteComment(postId, commentId) {
         return fetch(`${POST_API_URL}/${postId}/comment/${commentId}`, {
             headers: {
@@ -43,6 +64,12 @@ class CommentService {
         });
     }
 
+    /**
+     * Get all comments of the post
+     *
+     * @param postId postId that comment belongs to
+     * @return fetch result
+     */
     getAllCommentsByPostId(postId) {
         return fetch(`${POST_API_URL}/${postId}/comment/`, {
             headers: {
@@ -52,6 +79,13 @@ class CommentService {
         });
     }
 
+    /**
+     * Get comment by a CommentId
+     *
+     * @param postId postId that comment belongs to
+     * @param commentId id to find
+     * @return fetch result
+     */
     getCommentById(postId,commentId) {
         return fetch(`${POST_API_URL}/${postId}/comment/${commentId}`, {
             headers: {
