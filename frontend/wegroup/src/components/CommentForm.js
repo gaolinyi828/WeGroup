@@ -18,7 +18,7 @@ class CommentForm extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-        this.setState({...this.state, userId: newProps.userId, post: newProps.post})
+        this.setState({...this.state, userId: newProps.userId, postId: newProps.post._id})
     }
 
     handleChange(event) {

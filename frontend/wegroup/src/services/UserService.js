@@ -54,6 +54,15 @@ class UserService {
             method: 'PUT'
         });
     }
+
+    getUserByUserId(userId) {
+        return fetch(`${USER_API_URL}/${userId}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'GET'
+        })
+    }
 }
 
 export default UserService;
