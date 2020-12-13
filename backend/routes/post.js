@@ -188,6 +188,24 @@ router.get('/post/:postId', (req, res) => {
 });
 
 /**
+ * Get a list of posts with given ids
+ *
+ * @param id post ids
+ * @return status 404 if fail to get
+ *         status 200 if successfully get
+ */
+router.post('/post/ids', (req, res)=> {
+    let ids = [...new Set(req.body)];
+    Post.find({'_id': { $in: ids}}, (err, items) => {
+        if (err) {
+            res.status(404).send("Get failure");
+        } else {
+            res.status(200).send(items);
+        }
+    });
+});
+
+/**
  * Get all post by the userId
  *
  * @param id userId to find posts

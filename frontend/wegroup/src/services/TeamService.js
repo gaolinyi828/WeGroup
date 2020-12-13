@@ -1,3 +1,5 @@
+import PostService from "./PostService";
+
 let _singleton = Symbol();
 const TEAM_API_URL = 'http://localhost:8080/teams';
 
@@ -15,10 +17,10 @@ class TeamService {
     }
 
     createTeam(team) {
-        return fetch(`${TEAM_API_URL}/team`, {
+        return fetch(`${TEAM_API_URL}`, {
             body: JSON.stringify(team),
             headers: {
-            'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
             },
             method: 'POST'
         }
@@ -42,4 +44,16 @@ class TeamService {
             method: 'GET'
         })
     }
+
+    findAllTeamsByIds(teamIds) {
+        return fetch(`${TEAM_API_URL}/ids`, {
+            body: JSON.stringify(teamIds),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST'
+        });
+    }
 }
+
+export default TeamService;

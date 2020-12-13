@@ -109,7 +109,17 @@ class PostService {
             headers: {
                 'Content-Type': 'application/json'
             },
-            method: 'DELETE'
+            method: 'PUT'
+        });
+    }
+
+    findAllPostsByIds(postIds) {
+        return fetch(`${POST_API_URL}/ids`, {
+            body: JSON.stringify(postIds),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST'
         });
     }
 }

@@ -1,0 +1,17 @@
+/* Child Text Container */
+.avatar span{
+    display: none;
+    position: absolute;
+    bottom: -15%;
+    left: 20%;
+    right: 0;
+    background-color: transparent;
+    color: deepskyblue;
+    width: auto;
+    height: auto;
+}
+
+/* Hover on Parent Container */
+.avatar:hover span{
+    display: block;
+}
