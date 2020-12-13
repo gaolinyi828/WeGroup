@@ -17,10 +17,10 @@ class TeamService {
     }
 
     createTeam(team) {
-        return fetch(`${TEAM_API_URL}/team`, {
+        return fetch(`${TEAM_API_URL}`, {
             body: JSON.stringify(team),
             headers: {
-            'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
             },
             method: 'POST'
         }

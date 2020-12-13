@@ -54,6 +54,16 @@ class UserService {
             method: 'PUT'
         });
     }
+
+    getUsersByIds(userIds) {
+        return fetch(`${USER_API_URL}/ids`, {
+            body: JSON.stringify(userIds),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST'
+        });
+    }
 }
 
 export default UserService;

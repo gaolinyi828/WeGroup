@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {ListGroup, Jumbotron, Button, Row, Tab, Image} from 'react-bootstrap';
+import {ListGroup, Jumbotron, Button, Row, Tab, Image, Modal} from 'react-bootstrap';
+import FormGroup from "./FormGroup";
 import CommentItem from "./CommentItem";
 import CommentForm from "./CommentForm";
 import moment from 'moment';
@@ -20,6 +21,8 @@ class Post extends Component {
         this.interestPost = this.interestPost.bind(this);
         this.uninterestPost = this.uninterestPost.bind(this);
         this.replyComment = this.replyComment.bind(this);
+        this.showFormGroup = this.showFormGroup.bind(this);
+        this.closeFormGroup = this.closeFormGroup.bind(this);
 
         this.state = {
             user: {
@@ -28,7 +31,8 @@ class Post extends Component {
             },
             tag:'',
             comments: [],
-            reload: false
+            reload: false,
+            show: false
         }
     }
 
@@ -167,6 +171,14 @@ class Post extends Component {
         }
     }
 
+    showFormGroup() {
+        this.setState({...this.state, show: true});
+    }
+
+    closeFormGroup() {
+        this.setState({...this.state, show: false});
+    }
+
     //post need a post title
     //tag need a getTagByTagId
     //post need a group formed property
@@ -200,12 +212,12 @@ class Post extends Component {
                         </span>
                     </p>
                     {this.renderInterestButton()}
-                    <div>if user state == currentPost.userId && currentPost.interested.size > 0)
-                        <Button variant="success">Form Group</Button>
-                        need have a form group component
-                        else
-                        <Button variant="success" disabled>Form Group</Button>
-                    </div>
+                    {this.props.post.userId === this.state.user._id && <Button onClick={this.showFormGroup} variant="success">Form Group</Button>}
+                    <Modal size="lg" show={this.state.show} onHide={this.closeFormGroup}>
+                        <Modal.Body>
+                            <FormGroup closeFormGroup={this.closeFormGroup} post={this.props.post} />
+                        </Modal.Body>
+                    </Modal>
                 </Jumbotron>
                 <div>
                     {this.replyComment()}

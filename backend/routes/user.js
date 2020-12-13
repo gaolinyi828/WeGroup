@@ -113,4 +113,22 @@ router.put('/update', async (req, res) => {
     });
 })
 
+/**
+ * Get a list of users with given ids
+ *
+ * @param id user ids
+ * @return status 404 if fail to get
+ *         status 200 if successfully get
+ */
+router.post('/ids', (req, res)=> {
+    let ids = [...new Set(req.body)];
+    User.find({'_id': { $in: ids}}, (err, items) => {
+        if (err) {
+            res.status(404).send("Get failure");
+        } else {
+            res.status(200).send(items);
+        }
+    });
+});
+
 module.exports = router;

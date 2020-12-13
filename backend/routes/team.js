@@ -11,8 +11,8 @@ const Team = require('../models/team');
 router.post('/', (req, res) => {
     const newTeam = new Team({
         userId: req.body.userId,
-        members: req.body.interested,
-        teamName: req.body.text,
+        members: req.body.members,
+        teamName: req.body.teamName,
         postId: req.body.postId,
         tag: req.body.tag,
     });
