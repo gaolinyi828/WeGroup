@@ -12,10 +12,18 @@ class PostCard extends Component {
         }
     }
 
-    componentDidMount() {
-        this.postService.getPostById(this.props.postId).then(res => res.json()).then(res => {
+    getPostById(postId) {
+        this.postService.getPostById(postId).then(res => res.json()).then(res => {
             this.setState({post: res});
         })
+    }
+
+    componentDidMount() {
+        this.getPostById(this.props.postId);
+    }
+
+    componentWillReceiveProps(newProps) {
+        this.getPostById(newProps.postId);
     }
 
 //param postid, render a card showing post name, who posted it(show profile image), user name, posted date, and some comments, set a max length of xxx
