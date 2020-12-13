@@ -3,17 +3,20 @@ import { Container, Row, Col, Image, Tabs, Tab } from "react-bootstrap";
 import WeGroupNavbar from "./WeGroupNavbar";
 import GroupTab from "../components/GroupTab";
 import PostTab from "../components/PostTab";
-import InterestedTab from "../components/InterestedTab";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 import "../styles/UserProfile.css"
 
 import UserService from "../services/UserService";
+import TeamService from "../services/TeamService";
+import PostService from "../services/PostService";
 
 class UserProfile extends Component {
     constructor(props) {
         super(props);
         this.userService = UserService.instance;
+        this.teamService = TeamService.instance;
+        this.postService = PostService.instance;
 
         this.state = {
             user: {
@@ -29,10 +32,16 @@ class UserProfile extends Component {
                 user: {
                     _id: res._id,
                     username: res.username,
-                    groups: res.teams,
-                    posts: res.postsCreatedByUser,
-                    interested_posts: res.postsInteracted
                 }
+            });
+            this.teamService.findAllTeamsByIds(res.teams).then(res => res.json()).then(res => {
+                this.setState({user: {...this.state.user, groups: res}});
+            });
+            this.postService.findAllPostsByIds(res.postsCreatedByUser).then(res => res.json()).then(res => {
+                this.setState({user: {...this.state.user, posts: res}});
+            });
+            this.postService.findAllPostsByIds(res.postsInteracted).then(res => res.json()).then(res => {
+                this.setState({user: {...this.state.user, interested_posts: res}});
             });
         })
     }
@@ -59,15 +68,15 @@ class UserProfile extends Component {
                             <hr />
                         </Col>
                         <Col xs={6}>
-                            <Tabs style={{width: '100%', textAlign: 'center'}} defaultActiveKey="tabs" id="uncontrolled-tab-example">
+                            <Tabs style={{width: '100%', textAlign: 'center'}} defaultActiveKey="group" id="uncontrolled-tab-example">
                                 <Tab eventKey="group" title="My Group">
-                                    <GroupTab />
+                                    <GroupTab groups={this.state.user.groups} />
                                 </Tab>
                                 <Tab eventKey="post" title="My Post">
-                                    <PostTab />
+                                    <PostTab posts={this.state.user.posts} />
                                 </Tab>
                                 <Tab eventKey="interested" title="Interested Post">
-                                    <InterestedTab />
+                                    <PostTab posts={this.state.user.interested_posts} />
                                 </Tab>
                             </Tabs>
                         </Col>
