@@ -4,7 +4,11 @@ import { Card } from "react-bootstrap";
 
 class PostTab extends Component {
     renderMyPosts() {
-        if (!this.props.posts) return <h2>You have no post yet</h2>
+        if (!this.props.posts || this.props.posts.length === 0) return (
+            <div style={{textAlign: 'center', marginTop: '30%', fontWeight: 220, fontSize: '2rem'}}>
+                <p>You don't have any post</p>
+            </div>
+        )
         return this.props.posts.map((post, index) =>
             <Card key={index} style={{ width: '90%', margin: '5%' }}>
                 <Card.Body>

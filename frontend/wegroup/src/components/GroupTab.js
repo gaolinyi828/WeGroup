@@ -3,23 +3,13 @@ import { Card } from 'react-bootstrap';
 import TeamService from "../services/TeamService";
 
 class GroupTab extends Component {
-    constructor(props) {
-        super(props);
-
-        this.teamService = TeamService.instance;
-        this.state = {
-            groups: []
-        }
-    }
-
-    componentWillReceiveProps(newProps) {
-        this.teamService.findAllTeamsByIds(newProps.groups).then(res => res.json()).then(res => {
-            this.setState({groups: res});
-        });
-    }
-
     renderGroups() {
-        this.state.groups.map((group, index) => {
+        if (!this.props.groups || this.props.groups.length === 0) return (
+            <div style={{textAlign: 'center', marginTop: '30%', fontWeight: 220, fontSize: '2rem'}}>
+                <p>You hasn't joined any group yet</p>
+            </div>
+        )
+        return this.props.groups.map((group, index) => {
             return (
                 <Card key={index} style={{ width: '90%', margin: '5%' }}>
                     <Card.Body>
@@ -33,6 +23,7 @@ class GroupTab extends Component {
     }
 
     render() {
+        console.log(this.props);
         return (
             <div>
                 {this.renderGroups()}
