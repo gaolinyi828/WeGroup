@@ -107,7 +107,7 @@ router.get('/getTeamList/:userId', (req, res) => {
  */
 router.post('/ids', (req, res)=> {
     let ids = [...new Set(req.body)];
-    Post.find({'_id': { $in: ids}}, (err, items) => {
+    Team.find({'_id': { $in: ids}}, (err, items) => {
         if (err) {
             res.status(404).send("Get failure");
         } else {

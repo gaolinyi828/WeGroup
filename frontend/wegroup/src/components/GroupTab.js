@@ -14,8 +14,6 @@ class GroupTab extends Component {
                 <Card key={index} style={{ width: '90%', margin: '5%' }}>
                     <Card.Body>
                         <Card.Title>{group.teamName}</Card.Title>
-                        <Card.Text>
-                        </Card.Text>
                     </Card.Body>
                 </Card>
             )
@@ -23,7 +21,6 @@ class GroupTab extends Component {
     }
 
     render() {
-        console.log(this.props);
         return (
             <div>
                 {this.renderGroups()}
