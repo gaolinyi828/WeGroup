@@ -1,36 +1,89 @@
 import React, { Component } from 'react';
-import { Jumbotron, Button, Container, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import WeGroupNavbar from "../containers/WeGroupNavbar";
+import { Form, Button } from 'react-bootstrap';
+
+import UserService from "../services/UserService";
+import TeamService from "../services/TeamService";
 
 class FormGroup extends Component {
     constructor(props) {
         super(props);
 
-        this.postId = this.postId.bind(this);
-        this.currentPost = this.getPostByPostId(this.postId)
+        this.userService = UserService.instance;
+        this.teamService = TeamService.instance;
+        this.onChangeGroupName = this.onChangeGroupName.bind(this);
+        this.onFormGroup = this.onFormGroup.bind(this);
+        this.handleCheckClick = this.handleCheckClick.bind(this);
+        this.state = {
+            group: {
+                teamName: '',
+                members: []
+            },
+            candidates: [],
+            selected: []
+        }
     }
-//param postid, render a card showing post name, who posted it(show profile image), user name, posted date, and some comments, set a max length of xxx
+
+    onChangeGroupName(e) {
+        this.setState({group: {...this.state.group, teamName: e.target.value}});
+    }
+
+    componentDidMount() {
+        this.userService.getUsersByIds(this.props.post.interested).then(res => res.json()).then(res => {
+            this.setState({group: {...this.state.group, userId: this.props.post.userId, tagId: this.props.post.tagId, postId: this.props.post._id}, candidates: res})
+        })
+    }
+
+    renderCandidates() {
+        return this.state.candidates.map((candidate, index) =>
+            <Form.Check key={index} id={candidate._id} type="checkbox" >
+                <Form.Check.Input onChange={this.handleCheckClick} type="checkbox" />
+                <Form.Check.Label>{candidate.username}</Form.Check.Label>
+            </Form.Check>
+        );
+    }
+
+    onFormGroup() {
+        this.teamService.createTeam(this.state.group).then(res => {
+            if (res.status === 200) {
+                alert("Successfully create group");
+                this.props.closeFormGroup();
+            } else {
+                alert("Something went wrong when creating group")
+            }
+        });
+    }
+
+    handleCheckClick = (e) => {
+        let newState = this.state;
+        if (e.target.checked) {
+            newState.group.members.push(e.target.id);
+        } else {
+            const index = newState.group.members.indexOf(e.target.id);
+            if (index > -1) {
+                newState.group.members.splice(index, 1);
+            }
+        }
+        this.setState(newState);
+    }
+
     render() {
         return (
             <Form>
-                <h1 style={{display: 'flex', justifyContent: 'center'}}>Form Group</h1>
                 <div style={{width: '30%', margin: '30px auto'}}>
-                    <Form.Group controlId="formGroup.NameInput">
-                        <Form.Control type="text" placeholder="Your group name" />
-                    </Form.Group>
-                    <Form.Group id="formGridCheckbox">
-                        <div key={`inline-checkbox`} className="mb-3">
-                            currentPost.interested.each
-                            <div><Form.Check inline label="member.userId" type="checkbox"/></div>
-                            <div><Form.Check inline label="member.userId" type="checkbox"/></div>
-                        </div>
-                    </Form.Group>
-                    <Button variant="primary" type="submit">
-                        Submit
-                    </Button>
-                    <div><a href="/post/currentPost.postId">Go back</a></div>
+                    <h1 style={{display: 'flex', justifyContent: 'center'}}>Form Group</h1>
                 </div>
+                <Form.Group controlId="formGroup.NameInput">
+                    <Form.Label>Group Name</Form.Label>
+                    <Form.Control onChange={this.onChangeGroupName} type="text" placeholder="Your group name" />
+                </Form.Group>
+                <Form.Group id="formGridCheckbox">
+                    <div key={`inline-checkbox`} className="mb-3">
+                        {this.renderCandidates()}
+                    </div>
+                </Form.Group>
+                <Button onClick={this.onFormGroup} variant="primary" type="button">
+                    Form Group
+                </Button>
             </Form>
         )
     }

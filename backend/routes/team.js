@@ -12,8 +12,8 @@ router.post(
     '/team', (req, res) => {
         const newTeam = new Team({
         userId: req.body.userId,
-        members: req.body.interested + req.body.userId,
-        teamName: req.body.text,
+        members: req.body.members,
+        teamName: req.body.teamName,
         postId: req.body.postId,
         tag: req.body.tag,
     });
@@ -22,7 +22,6 @@ router.post(
             console.log(err);
             res.status(400).send("invalid input");
         } else {
-            console.log()
             res.status(200).send(newTeam);
         }
     });
