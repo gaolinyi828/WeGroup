@@ -128,5 +128,4 @@ router.delete('/post/:postId/comment/:id', (req, res) => {
     });
 });
 
-
 module.exports = router;

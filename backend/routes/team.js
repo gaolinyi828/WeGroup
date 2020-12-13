@@ -10,10 +10,10 @@ const Team = require('../models/team');
  */
 router.post(
     '/team', (req, res) => {
-    const newTeam = new Team({
+        const newTeam = new Team({
         userId: req.body.userId,
-        members: req.body.interested,
-        teamName: req.body.text,
+        members: req.body.members,
+        teamName: req.body.teamName,
         postId: req.body.postId,
         tag: req.body.tag,
     });
@@ -22,18 +22,18 @@ router.post(
             console.log(err);
             res.status(400).send("invalid input");
         } else {
-            console.log()
             res.status(200).send(newTeam);
         }
     });
-    User.findById(req.body.userId, (err, user) => {
-        if (err) {
-            res.status(404).send("Something went wrong");
-        } else {
-            user.teams.push(newTeam);
-            user.save();
-
-        }
+    newTeam.members.forEach(element => {
+        User.findById(element, (err, user) => {
+            if (err) {
+                res.status(404).send("Something went wrong");
+            } else {
+                user.teams.push(newTeam);
+                user.save();
+            }
+        });
     });
 });
 
@@ -47,15 +47,17 @@ router.delete('/team/delete/:teamId', (req, res) => {
         if (err) {
             res.status(404).send("Something went wrong");
         } else {
-            User.findById(team.userId, (err, user) => {
-                if (err) {
-                    console.log(err);
-                    res.status(404).send("Something went wrong");
-                } else {
-                    let i = user.teams.indexOf(team);
-                    user.teams.splice(i, 1);
-                    user.save();
-                }
+            team.members.forEach(element => {
+                User.findById(element, (err, user) => {
+                    if (err) {
+                        console.log(err);
+                        res.status(404).send("Something went wrong");
+                    } else {
+                        let i = user.teams.indexOf(team);
+                        user.teams.splice(i, 1);
+                        user.save();
+                    }
+                });
             });
         }
     })

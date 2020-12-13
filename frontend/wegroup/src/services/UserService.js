@@ -55,13 +55,14 @@ class UserService {
         });
     }
 
-    getUserByUserId(userId) {
-        return fetch(`${USER_API_URL}/${userId}`, {
+    getUsersByIds(userIds) {
+        return fetch(`${USER_API_URL}/ids`, {
+            body: JSON.stringify(userIds),
             headers: {
                 'Content-Type': 'application/json'
             },
-            method: 'GET'
-        })
+            method: 'POST'
+        });
     }
 }
 
