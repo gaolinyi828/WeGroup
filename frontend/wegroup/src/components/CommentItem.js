@@ -2,30 +2,33 @@ import React, { Component } from 'react';
 import {Button, Row, Col } from 'react-bootstrap';
 import '../styles/CommentItem.css';
 import CommentService from "../services/CommentService";
+import UserService from "../services/UserService";
 import { withRouter } from "react-router-dom";
+import moment from "moment";
 
 class CommentItem extends Component {
     constructor(props) {
         super(props);
         this.deleteComment = this.deleteComment.bind(this);
+        this.renderButtons = this.renderButtons.bind(this);
 
-        // this.postId = this.postId.bind(this);
-        // this.currentPost = this.getPostByPostId(this.postId)
+
         this.commentService = CommentService.instance;
+        this.userService = UserService.instance;
+        this.state = {
+            commentOwner: ''
+        }
     }
 
-    // editComment(event) {
-    //     event.preventDefault();
-    //     this.commentService.deleteComment(this.props.comment.postId, this.props.comment._id).then(r => {
-    //         if (r.status !== 200) {
-    //             alert("Something went wrong when deleting comment!");
-    //         } else {
-    //             alert("Comment deleted");
-    //             const url = "/post_detail/" + this.props.comment.postId
-    //             this.props.history.push(url)
-    //         }
-    //     })
-    // }
+    componentWillReceiveProps(newProps) {
+        this.userService.getUserByUserId(newProps.comment.userId).then(res => res.json()).then(res => {
+            this.setState({
+                ...this.state,
+                commentOwner: res.username
+            });
+        })
+    }
+
 
     deleteComment(event) {
         event.preventDefault();
@@ -39,17 +42,35 @@ class CommentItem extends Component {
             }
         })
     }
-    //
-    //
-//param postid, render a card showing post name, who posted it(show profile image), user name, posted date, and some comments, set a max length of xxx
+
+    renderButtons(){
+        if(this.props.comment.userId === this.props.userId) {
+            return (
+                <div style={{ marginLeft: "auto", marginTop: "auto" }}>
+                    <Button
+                        variant="warning" href={`/post_detail/${this.props.comment.postId}/comment/${this.props.comment._id}`}>
+                        Edit
+                    </Button>
+                    <Button variant="danger" onClick={this.deleteComment}>
+                        Delete
+                    </Button>
+                </div>
+            )
+        }
+    }
+
+    formatDate(date) {
+        return new moment(date).format("YYYY-MM-DD HH:mm:ss");
+    }
+
     render() {
         return (
-            <div style={{width: '90%', margin: '30px auto'}}>
+            <div style={{width: '90%', margin: '10px auto 10px auto'}}>
                 <Row style={{ display: "flex", minHeight: "150px" }}>
                     <Col sm={3} style={{ display: "flex", paddingRight: "0"}}>
                         <div className={'commentBorder'} style={{ display: "flex", width:"inherit", height:"inherit"}}>
                             <p className={'textPadding'}>
-                                {this.props.comment.userId} <br />{this.props.comment.createdAt}
+                                {this.state.commentOwner} <br />{this.formatDate(this.props.comment.createdAt)}
                             </p>
                         </div>
                     </Col>
@@ -58,15 +79,7 @@ class CommentItem extends Component {
                             <p className={'textPadding'}>
                                 {this.props.comment.text}
                             </p>
-                            <div style={{ marginLeft: "auto", marginTop: "auto" }}>
-                                <Button
-                                    variant="warning" href={`/post_detail/${this.props.comment.postId}/comment/${this.props.comment._id}`}>
-                                    Edit
-                                </Button>
-                                <Button variant="danger" onClick={this.deleteComment}>
-                                    Delete
-                                </Button>
-                            </div>
+                            {this.renderButtons()}
                         </div>
                     </Col>
                 </Row>
