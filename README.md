@@ -77,3 +77,8 @@ readme:
 This is the file we provide for other developers. 
 In this file, we have the instructions for other developers to install the servers, run the build, and test all the functions.
 
+## Instructions for developers
+1. git clone all files in the repository to your working directory
+2. go to the working directory and run "npm install"
+3. go to the backend directory and run "npm start"
+4. go to the frontend directory and run "npm start"
