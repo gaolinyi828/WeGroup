@@ -51,11 +51,29 @@ Use a feature branch workflow by committing branches and submit pull requests to
 
 
 ## Project Repo
-### docs
-Includes basic project and team documents. Currently we have public webpage using Github Pages, communication plan in docs. 
+Project organization:
+We organize the whole project in four folders. They are called backend, frontend, docs, and readme. They contain different files inside which play different roles in the entire project. Here are the basic introductions of all four folders.
+ 
+backend:
+Basically, this folder contains all the technical related files of backend design.
+We have a subfolder called “models”, which contains all the data schemas we designed as the database.
+We have a subfolder called “routes”, which contains all the API files to provide the functionality. 
+We have a subfolder called “middleware”. It contains the authentication related files.
+We also have the server related files contained in this folder.
 
-### backend
-Includes codes for backend design.
+frontend:
+Basically, this folder contains all the technical related files of frontend design.
+We have a subfolder called “public”, which contains all the HTML entry files.
+We have a subfolder called “styles”, which contains all the css file.
+We have a subfolder called “src”, which contains all the course code, for example, the components and services. 
+We have a subfolder called “service”, which helps to connect the frontend with the backend.
 
-### frontend
-Includes codes for frontend design.
+docs: 
+Basically, this folder contains all the technical related files for everyone to read.
+“The communication plan” is the file to record our meetings about the project design.
+“CS5500 WeGroup Document” is the file which includes all the introductions to help the professor and teaching assistants evaluate our project. 
+
+readme: 
+This is the file we provide for other developers. 
+In this file, we have the instructions for other developers to install the servers, run the build, and test all the functions.
+
