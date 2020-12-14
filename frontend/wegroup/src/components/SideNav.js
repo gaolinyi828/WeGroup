@@ -7,7 +7,8 @@ import Row from "react-bootstrap/Row";
 import { Nav} from "react-bootstrap";
 
 
-// need to add nav panels
+// need to add nav panels when we add chat and calendar features in the future
+// This is the side nav bar component
 const SideNav = () => {
     return (
             <Nav className={'sidenav'} style={{backgroundColor: '#692929', color: '#0a0a0a', textAlign: 'center'}}>

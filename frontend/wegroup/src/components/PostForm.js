@@ -10,8 +10,12 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import TabForm from "./TabForm";
 import {useHistory} from "react-router";
 
+// This component is used for creating a post
 const PostForm = () => {
+    // useHistory for re-direct page
     const history = useHistory();
+
+    // component states
     const [formData, setFormData] = useState({
         img: null,
         title: '',
@@ -19,6 +23,8 @@ const PostForm = () => {
         tagId : '',
         userId: '',
     })
+    const [allTags, setAllTags] = useState([]);
+    const [fileName, setFileName] = useState("Upload Design Image");
     const tagService = TagService.instance;
     const postService = PostService.instance;
     const userService = UserService.instance;
@@ -65,8 +71,6 @@ const PostForm = () => {
                 }
             })
     }
-
-    const [allTags, setAllTags] = useState([]);
     useEffect(() => {
         fetchTag();
         fetchUser();
@@ -87,16 +91,15 @@ const PostForm = () => {
     const handleOnClickCreateTag = () => {
         setShowModal(true)
     }
-    const handleClose = () => setShowModal(false);
+    const handleClose = () => {
+        setShowModal(false)
+        history.push('/create_post');
+    };
 
     const handleOnSelectFile = (e) => {
         setFileName(e.target.files[0].name);
         setFormData({...formData, img: e.target.files[0]})
     }
-
-    const [fileName, setFileName] = useState("Upload Design Image");
-
-
     return (
         <div>
             <Container>
@@ -104,7 +107,7 @@ const PostForm = () => {
                     <Col xs={{span: 4, offset: 2}}>
                         <Form style={{marginTop: '2rem', width: '44rem', padding: "3rem 5rem", backgroundColor: '#eeeeee' }}>
                             <Form.Group>
-                            <Form.Label>Project Design</Form.Label>
+                                <Form.Label>Project Design</Form.Label>
                                 <Form.File custom id="postImage">
                                     <Form.File.Input onChange={handleOnSelectFile}/>
                                     <Form.File.Label data-browse={"Browse"}>
@@ -123,16 +126,16 @@ const PostForm = () => {
                             <Form.Group controlId="Tags">
                                 <Form.Label>Tags</Form.Label>
                                 <Select
-                                className="basic-single"
-                                isDisabled={false}
-                                isLoading={false}
-                                isClearable={true}
-                                isRtl={false}
-                                isSearchable={true}
-                                name="tag"
-                                options={allTags}
-                                value={selectedTag}
-                                onChange={handleChange}
+                                    className="basic-single"
+                                    isDisabled={false}
+                                    isLoading={false}
+                                    isClearable={true}
+                                    isRtl={false}
+                                    isSearchable={true}
+                                    name="tag"
+                                    options={allTags}
+                                    value={selectedTag}
+                                    onChange={handleChange}
                                 />
                                 <IconButton style={{fontSize: "1rem",padding: "12px 5px"}} onClick={handleOnClickCreateTag}>
                                     <AddCircleOutlineIcon style={{marginRight: "0.5rem", marginLeft: "0"}}/>create new tag
@@ -158,6 +161,5 @@ const PostForm = () => {
         </div>
     )
 }
-
 
 export default PostForm;
