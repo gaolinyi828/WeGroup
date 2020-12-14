@@ -15,6 +15,7 @@ import PostDetailPage from "./containers/PostDetailPage";
 import PostCreate from "./containers/PostCreate";
 import EditCommentPage from "./containers/EditCommentPage";
 
+// This is the root component of our react application
 function App() {
   return (
       <Provider store={store}>

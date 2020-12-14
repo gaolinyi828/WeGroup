@@ -1,7 +1,7 @@
 let _singleton = Symbol();
 const TAG_API_URL = 'http://localhost:8080/tags';
 
-
+// The services function for tag related APIs
 class TagService {
     constructor(singletonToken) {
         if (_singleton !== singletonToken)

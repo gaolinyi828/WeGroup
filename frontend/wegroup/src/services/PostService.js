@@ -24,7 +24,6 @@ class PostService {
         if (post.comments) data.append('comments', post.comments);
         if (post.interested) data.append('interested', post.interested);
         if (post.userId) data.append('userId', post.userId);
-        if (post.title) data.append('title', post.title);
         return fetch(`${POST_API_URL}`, {
             body: data,
             method: 'POST'
