@@ -5,6 +5,7 @@ import React from "react";
 import PostForm from "../components/PostForm";
 import "../styles/ActivityPage.css";
 
+// This is create post page component
 const PostCreate = () => {
     return (
         <div>

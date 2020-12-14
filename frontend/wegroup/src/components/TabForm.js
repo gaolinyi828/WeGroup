@@ -3,8 +3,7 @@ import {Form, Col, Row, Button, Container} from 'react-bootstrap';
 import TagService from "../services/TagService";
 import {useHistory} from "react-router";
 
-
-
+// This component is used for creating a new tag
 const TabForm = (props) => {
     const tagService = TagService.instance;
     const history = useHistory();
@@ -15,7 +14,7 @@ const TabForm = (props) => {
         year: '',
     })
 
-
+    // handle on create function when click create button
     const handleOnCreate = () => {
         tagService.createTag(formData).then(res => {
             if (res.status !== 201) {
