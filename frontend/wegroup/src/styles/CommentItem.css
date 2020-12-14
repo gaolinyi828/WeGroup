@@ -1,7 +1,14 @@
-.commentBorder {
+.commentBorderLeft {
     background-color: #eee;
-    border: 1px groove #bf2121;
+    border: 2px groove #bf2121;
+    border-right: 0px;
 }
+
+.commentBorderRight {
+    background-color: #eee;
+    border: 2px groove #bf2121;
+}
+
 .textPadding {
     padding: 5px 15px 5px 15px;
 }

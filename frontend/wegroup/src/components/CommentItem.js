@@ -68,14 +68,14 @@ class CommentItem extends Component {
             <div style={{width: '90%', margin: '10px auto 10px auto'}}>
                 <Row style={{ display: "flex", minHeight: "150px" }}>
                     <Col sm={3} style={{ display: "flex", paddingRight: "0"}}>
-                        <div className={'commentBorder'} style={{ display: "flex", width:"inherit", height:"inherit"}}>
+                        <div className={'commentBorderLeft'} style={{ display: "flex", width:"inherit", height:"inherit"}}>
                             <p className={'textPadding'}>
                                 {this.state.commentOwner} <br />{this.formatDate(this.props.comment.createdAt)}
                             </p>
                         </div>
                     </Col>
                     <Col sm={9} style={{ display: "flex",paddingLeft:"0" }}>
-                        <div className={'commentBorder'} style={{ display: "flex", width:"inherit", height:"inherit"}}>
+                        <div className={'commentBorderRight'} style={{ display: "flex", width:"inherit", height:"inherit"}}>
                             <p className={'textPadding'}>
                                 {this.props.comment.text}
                             </p>
