@@ -82,3 +82,4 @@ In this file, we have the instructions for other developers to install the serve
 2. go to the working directory and run "npm install"
 3. go to the backend directory and run "npm start"
 4. go to the frontend directory and run "npm start"
+5. You may do your customized changes now
