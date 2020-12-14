@@ -4,7 +4,8 @@ import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import Row from "react-bootstrap/Row";
-import { Nav} from "react-bootstrap";
+import { Nav } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 
 // need to add nav panels when we add chat and calendar features in the future
@@ -15,7 +16,9 @@ const SideNav = () => {
                 <Nav.Item className={'item'}>
                     <Nav.Link>
                         <Row>
-                            <NotificationsActiveIcon style={{fontSize: '3rem', color: 'white', margin: 'auto'}} />
+                            <Link to="/activity">
+                                <NotificationsActiveIcon style={{fontSize: '3rem', color: 'white', margin: 'auto'}} />
+                            </Link>
                         </Row>
                         <Row>
                             <div style={{margin: 'auto', color: 'white', fontSize: '12px'}} >Activity</div>
@@ -25,7 +28,9 @@ const SideNav = () => {
                 <Nav.Item className={'item'}>
                     <Nav.Link style={{color: '#0a0a0a'}}>
                         <Row>
-                            <QuestionAnswerIcon style={{fontSize: '3rem', color: 'white', margin: 'auto'}} />
+                            <Link to="/chat">
+                                <QuestionAnswerIcon style={{fontSize: '3rem', color: 'white', margin: 'auto'}} />
+                            </Link>
                         </Row>
                         <Row>
                             <div style={{margin: 'auto', color: 'white', fontSize: '12px'}}>Chat</div>
@@ -35,7 +40,9 @@ const SideNav = () => {
                 <Nav.Item className={'item align-item-center'}>
                     <Nav.Link href="/calendar" style={{color: '#0a0a0a'}}>
                         <Row>
-                            <EventNoteIcon style={{fontSize: '3rem', color: 'white', margin: 'auto'}} />
+                            <Link to="/calendar">
+                                <EventNoteIcon style={{fontSize: '3rem', color: 'white', margin: 'auto'}} />
+                            </Link>
                         </Row>
                         <Row>
                             <div style={{margin: 'auto', color: 'white', fontSize: '12px'}}>Calendar</div>

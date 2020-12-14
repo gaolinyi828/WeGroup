@@ -43,12 +43,14 @@ class FormGroup extends Component {
     }
 
     onFormGroup() {
+        console.log('here');
         this.teamService.createTeam(this.state.group).then(res => {
-            if (res.status === 200) {
+            console.log(res);
+            if (res.status !== 200) {
+                alert("Something went wrong when creating group")
+            } else {
                 alert("Successfully create group");
                 this.props.closeFormGroup();
-            } else {
-                alert("Something went wrong when creating group")
             }
         });
     }
