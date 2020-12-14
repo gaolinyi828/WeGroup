@@ -7,7 +7,7 @@ A full-stack web application to let users create groups and collaborate with eac
 https://pages.github.ccs.neu.edu/2020FACS5500SV/project-hqryyls/
 
 ### Deployed Application Link
-TBD
+https://wegroup-frontend.herokuapp.com
 
 ## Team
 ### Team Members
