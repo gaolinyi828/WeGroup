@@ -48,8 +48,7 @@ class CommentForm extends Component {
     render() {
         return (
             <Form onSubmit={this.handleSubmit}>
-                <h3 style={{display: 'flex', justifyContent: 'center', marginTop:"20px"}}>Add Comment to "{this.props.post.title}"</h3>
-                <div style={{width: '90%', margin: 'auto'}}>
+                <div style={{width: '90%', margin: '30px auto'}}>
                     <Form.Group>
                         <Form.Control as="textarea" onChange={this.handleChange} value={this.state.text} rows={5} placeholder="Write something for this comment..."/>
                     </Form.Group>

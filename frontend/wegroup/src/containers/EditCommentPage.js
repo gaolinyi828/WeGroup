@@ -62,8 +62,7 @@ class EditCommentPage extends Component {
                         </div>
                         <div className={'postDetailPage'}>
                             <Form onSubmit={this.handleSubmit}>
-                                <h3 style={{display: 'flex', justifyContent: 'center'}}>Edit Your Comment in {this.state.post.title}</h3>
-                                <div style={{width: '90%', margin: 'auto'}}>
+                                <div style={{width: '90%', margin: '2em auto 0 auto'}}>
                                     <Form.Group controlId="commentInput">
                                         <Form.Control as="textarea" onChange={this.handleChange} value={this.state.text} rows={5} placeholder={this.state.comment.text}/>
                                     </Form.Group>

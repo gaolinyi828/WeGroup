@@ -8,8 +8,10 @@ import UserService from "../services/UserService";
 import {IconButton} from "@material-ui/core";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import TabForm from "./TabForm";
+import {useHistory} from "react-router";
 
 const PostForm = () => {
+    const history = useHistory();
     const [formData, setFormData] = useState({
         img: null,
         title: '',
@@ -45,19 +47,23 @@ const PostForm = () => {
     const handleOnSubmit = () => {
         postService.createPost(formData)
             .then(r => {
-            if (r.status !== 200) {
-                alert("Something went wrong when creating post!");
-            } else {
-                setFormData({
-                    img: null,
-                    title: '',
-                    text: '',
-                    tagId : '',
-                })
-                setFileName("Upload Design Image");
-                alert("Post Succeed!");
-            }
-        })
+                if (r.status !== 200) {
+                    alert("Something went wrong when creating post!");
+                } else {
+                    setFormData({
+                        img: null,
+                        title: '',
+                        text: '',
+                        tagId : '',
+                    })
+                    setFileName("Upload Design Image");
+                    alert("Post Succeed!");
+                    r.json().then(r => {
+                        const postId= r._id;
+                        history.push(`/post_detail/${postId}`)
+                    });
+                }
+            })
     }
 
     const [allTags, setAllTags] = useState([]);
